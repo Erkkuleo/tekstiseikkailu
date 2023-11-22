@@ -27,40 +27,31 @@ class Adventure:
   private val n2        = Area("Null 2", "Täälläkään ei ole mitään.")
   private val vault     = Area("Holvi", "Kultaharkot kimaltavat, partavesi tuoksuu.")
   private val destination = lab
-  /*
-  private val middle      = Area("Forest", "You are somewhere in the forest. There are a lot of trees here.\nBirds are singing.")
-  private val northForest = Area("Forest", "You are somewhere in the forest. A tangle of bushes blocks further passage north.\nBirds are singing.")
-  private val southForest = Area("Forest", "The forest just goes on and on.")
-  private val clearing    = Area("Forest Clearing", "You are at a small clearing in the middle of forest.\nNearly invisible, twisted paths lead in many directions.")
-  private val tangle      = Area("Tangle of Bushes", "You are in a dense tangle of bushes. It's hard to see exactly where you're going.")
-  private val home        = Area("Home", "Home sweet home! Now the only thing you need is a working remote control.")
-  */
 
-  bunkkeri .setNeighbors(Vector(                   "oikea" -> aula))
-  aula     .setNeighbors(Vector("ylös" -> piha,    "oikea" -> n1, "alas" -> kaytava, "vasen" -> bunkkeri))
-  piha     .setNeighbors(Vector(                                  "alas" -> aula))
-  kaytava  .setNeighbors(Vector("ylös" -> aula,                   "alas" -> lab))
-  lab      .setNeighbors(Vector("ylös" -> kaytava, "oikea" -> n2))
-  n1       .setNeighbors(Vector(                   "oikea" -> klubi,                    "vasen" -> aula))
-  klubi    .setNeighbors(Vector("ylös" -> tekniikka, "oikea" -> n3, "alas" -> asehuone, "vasen" -> n1))
-  tekniikka.setNeighbors(Vector("alas" -> klubi, "vasen" -> kvantti))
-  kvantti  .setNeighbors(Vector("oikea" -> tekniikka))
-  n3       .setNeighbors(Vector("vasen" -> klubi))
-  asehuone .setNeighbors(Vector("ylös" -> klubi, "alas" -> n2))
-  n2       .setNeighbors(Vector("ylös" -> asehuone, "oikea" -> vault, "vasen" -> lab))
-  vault    .setNeighbors(Vector("vasen" -> n2))
-  /*
+  bunkkeri .setNeighbors(Vector(                     "oikea" -> aula))
+  aula     .setNeighbors(Vector("ylös" -> piha,      "oikea" -> n1,         "alas" -> kaytava,  "vasen" -> bunkkeri))
+  piha     .setNeighbors(Vector(                                            "alas" -> aula))
+  kaytava  .setNeighbors(Vector("ylös" -> aula,                             "alas" -> lab))
+  lab      .setNeighbors(Vector("ylös" -> kaytava,   "oikea" -> n2))
+  n1       .setNeighbors(Vector(                     "oikea" -> klubi,                          "vasen" -> aula))
+  klubi    .setNeighbors(Vector("ylös" -> tekniikka, "oikea" -> n3,         "alas" -> asehuone, "vasen" -> n1))
+  tekniikka.setNeighbors(Vector(                                            "alas" -> klubi,    "vasen" -> kvantti))
+  kvantti  .setNeighbors(Vector(                     "oikea" -> tekniikka))
+  n3       .setNeighbors(Vector(                                                                "vasen" -> klubi))
+  asehuone .setNeighbors(Vector("ylös" -> klubi,                            "alas" -> n2))
+  n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
+  vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
 
-  middle     .setNeighbors(Vector("north" -> northForest, "east" -> tangle, "south" -> southForest, "west" -> clearing   ))
-  northForest.setNeighbors(Vector(                        "east" -> tangle, "south" -> middle,      "west" -> clearing   ))
-  southForest.setNeighbors(Vector("north" -> middle,      "east" -> tangle, "south" -> southForest, "west" -> clearing   ))
-  clearing   .setNeighbors(Vector("north" -> northForest, "east" -> middle, "south" -> southForest, "west" -> northForest))
-  tangle     .setNeighbors(Vector("north" -> northForest, "east" -> home,   "south" -> southForest, "west" -> northForest))
-  home       .setNeighbors(Vector(                                                                  "west" -> tangle     ))
 
-  clearing.addItem(Item("battery", "It's a small battery cell. Looks new."))
-  southForest.addItem(Item("remote", "It's the remote control for your TV.\nWhat it was doing in the forest, you have no idea.\nProblem is, there's no battery."))
-  */
+  piha.addItem(Item("omena", "omena, äbbyl."))
+  klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
+  vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
+  tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
+  asehuone.addItem(Item("ase", "tekee ase asioita"))
+  kvantti.addItem(Item("arduino", "läähkistä"))
+  aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
+  lab.addItem(Item("crafting recipe", "jotai"))
+
   /** The character that the player controls in the game. */
   val player = Player(bunkkeri)
 
