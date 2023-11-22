@@ -47,6 +47,36 @@ class Player(startingArea: Area):
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
 
+  def map: String =
+    if playerInventory.contains("kartta") then
+      "                 #############                 #############             \n"+
+      "                 #           #                 #           #             \n" +
+      "                 #  PIHA     #                 # TEKNIIKKA #             \n" +
+      "                 #           #                 #           #             \n" +
+      "                 #############                 #############             \n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "#############  #############  #############  #############  #############\n" +
+      "#           #  #           #  #           #  #           #  #           #\n" +
+      "#  BUNKKERI ####  AULA     #### NULL      ####  KLUBI    #### NULL      #\n" +
+      "#           #  #           #  #           #  #           #  #           #\n" +
+      "#############  #############  #############  #############  #############\n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "               #############                 #############               \n" +
+      "               #           #                 #           #               \n" +
+      "               #  KÄYTÄVÄ  #                 #ASEVARASTO #               \n" +
+      "               #           #                 #           #               \n" +
+      "               #############                 #############               \n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "               #############                 #############  #############\n" +
+      "               #           #                 #           #  #           #\n" +
+      "               #LABORATORIO###################  NULL     #### HOLVI     #\n" +
+      "               #           #                 #           #  #           #\n" +
+      "               #############                 #############  #############\n"
+    else
+      "Sinulla ei ole karttaa"
 
   /** Determines if the player has indicated a desire to quit the game. */
   def hasQuit = this.quitCommandGiven
@@ -62,6 +92,7 @@ class Player(startingArea: Area):
     val destination = this.location.neighbor(direction)
     this.currentLocation = destination.getOrElse(this.currentLocation)
     if destination.isDefined then "You go " + direction + "." else "You can't go " + direction + "."
+
 
 
   /** Causes the player to rest for a short while (this has no substantial effect in game terms).
