@@ -23,7 +23,7 @@ class Area(var name: String, var description: String):
 
   def removeItem(itemname: String): Option[Item] =
     this.items.remove(itemname)
-
+    
   /** Returns the area that can be reached from this area by moving in the given direction. The result
     * is returned in an `Option`; `None` is returned if there is no exit in the given direction. */
   def neighbor(direction: String) = this.neighbors.get(direction)

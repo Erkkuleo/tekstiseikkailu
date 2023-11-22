@@ -1,8 +1,11 @@
 package o1.adventure
 
+import o1.*
+
 /** The class `Action` represents actions that a player may take in a text adventure game.
   * `Action` objects are constructed on the basis of textual commands and are, in effect,
   * parsers for such commands. An action object is immutable after creation.
+ *
   * @param input  a textual in-game command such as “go east” or “rest” */
 class Action(input: String):
 

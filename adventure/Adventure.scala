@@ -42,7 +42,7 @@ class Adventure:
   n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
   vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
 
-
+  
   piha.addItem(Item("omena", "omena, äbbyl."))
   klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
