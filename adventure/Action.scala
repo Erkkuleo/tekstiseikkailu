@@ -26,6 +26,7 @@ class Action(input: String):
     case "drop"      => Some(actor.drop(this.modifiers))
     case "examine"   => Some(actor.examine(this.modifiers))
     case "inventory" => Some(actor.inventory)
+    case "kartta"    => Some(actor.map)
     case other       => None
 
   /** Returns a textual description of the action object, for debugging purposes. */
