@@ -1,6 +1,6 @@
 package o1.adventure
 
-import scala.collection.mutable.Map
+import scala.collection.mutable.*
 import o1.*
 import scala.util.Random
 

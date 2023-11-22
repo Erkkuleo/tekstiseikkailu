@@ -23,6 +23,7 @@ class Action(input: String):
     case "tavaraluettelo" => Some(actor.inventory)
     case "kartta"         => Some(actor.map)
     case "help"           => Some(actor.help)
+    case "juttele"        => Some(actor.juttele(this.modifiers))
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */

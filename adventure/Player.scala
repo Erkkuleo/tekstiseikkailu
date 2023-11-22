@@ -43,15 +43,15 @@ class Player(startingArea: Area):
     itemFromInventory match
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
-  /*
-  def juttele(NPC: String): String =
-    val npc = this.location.np
-    itemFromInventory match
-      case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
-      case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
-  */
+
   
-   */
+  def juttele(NPC: String): String =
+    val npc = this.location.getNpc.get(NPC)
+    npc match
+      case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
+      case Some(n) => s"${n.name}: ${n.liners.head}"
+  
+
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
 

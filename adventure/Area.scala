@@ -17,6 +17,8 @@ class Area(var name: String, var description: String):
 
   private val npc = Map[String, NPC]()
 
+  def getNpc = npc
+
   def addNpc(NPC: NPC) =
     this.npc += NPC.name -> NPC
 
