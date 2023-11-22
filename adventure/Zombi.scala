@@ -24,7 +24,7 @@ class Zombi(startingArea : Area):
     val possibleDirSize = possibleDirections.size
     val newRandomDirection = possibleDirections(Random.nextInt(possibleDirSize - 1))
     val destination = this.location.neighbor(newRandomDirection)
-    this.currentLocation = destination
+    this.currentLocation = destination.getOrElse(this.currentLocation)
 
   /** Palauttaa zombin sijainnin */
   override def toString = "Zombin sijainti: " + this.location.name
