@@ -1,98 +1,131 @@
 package o1.adventure
+import scala.io.StdIn.*
+import scala.collection.mutable.Map
 
-/** The class `Adventure` represents text adventure games. An adventure consists of a player and
-  * a number of areas that make up the game world. It provides methods for playing the game one
-  * turn at a time and for checking the state of the game.
+/** A `Player` object represents a player character controlled by the real-life user
+  * of the program.
   *
-  * N.B. This version of the class has a lot of “hard-coded” information that pertains to a very
-  * specific adventure game that involves a small trip through a twisted forest. All newly created
-  * instances of class `Adventure` are identical to each other. To create other kinds of adventure
-  * games, you will need to modify or replace the source code of this class. */
-class Adventure:
+  * A player object’s state is mutable: the player’s location and possessions can change,
+  * for instance.
+  *
+  * @param startingArea  the player’s initial location */
+class Player(startingArea: Area):
 
-  /** the name of the game */
-  val title = "mörtin zonbipeli"
+  private var currentLocation = startingArea        // gatherer: changes in relation to the previous location
+  private var quitCommandGiven = false              // one-way flag
+  private val playerInventory = Map[String, Item]()
 
-  private val bunkkeri  = Area("Bunkkeri", "Olet bunkkerissa.")
-  private val aula      = Area("Aula", "Aulasta pääsee moneen suuntaan.")
-  private val piha      = Area("Piha", "Pihalla on paljon omenapuita.")
-  private val kaytava   = Area("Käytävä", "Käytävän seinillä on paljon tekstiä.")
-  private val lab       = Area("Laboratorio", "Laboratoriossa on kaikenlaisia leluja.")
-  private val n1        = Area("Null 1", "Tällä ei ole mitään.")
-  private val klubi     = Area("Klubi", "Klubin pöydän ääressä istuu joku.")
-  private val tekniikka = Area("Tekniikkahuone", "Täällä on paljon laitteita.")
-  private val kvantti   = Area("Kvantti", "Tämä on universumin keskus.")
-  private val n3        = Area("Null 3", "Zombi aloittaa tästä huoneesta.")
-  private val asehuone  = Area("Asehuone", "Pum pum")
-  private val n2        = Area("Null 2", "Täälläkään ei ole mitään.")
-  private val vault     = Area("Holvi", "Kultaharkot kimaltavat, partavesi tuoksuu.")
-  private val destination = lab
+  def get(itemname: String) =
+    if this.currentLocation.contains(itemname) then
+      val removedItem = this.currentLocation.removeItem(itemname)
+      removedItem.foreach( n => this.playerInventory += n.name -> n )
+      s"Poimit ${itemname}."
+    else
+      s"Täällä ei ole ${itemname} poimittavaksi."
 
-  bunkkeri .setNeighbors(Vector(                     "oikea" -> aula))
-  aula     .setNeighbors(Vector("ylös" -> piha,      "oikea" -> n1,         "alas" -> kaytava,  "vasen" -> bunkkeri))
-  piha     .setNeighbors(Vector(                                            "alas" -> aula))
-  kaytava  .setNeighbors(Vector("ylös" -> aula,                             "alas" -> lab))
-  lab      .setNeighbors(Vector("ylös" -> kaytava,   "oikea" -> n2))
-  n1       .setNeighbors(Vector(                     "oikea" -> klubi,                          "vasen" -> aula))
-  klubi    .setNeighbors(Vector("ylös" -> tekniikka, "oikea" -> n3,         "alas" -> asehuone, "vasen" -> n1))
-  tekniikka.setNeighbors(Vector(                                            "alas" -> klubi,    "vasen" -> kvantti))
-  kvantti  .setNeighbors(Vector(                     "oikea" -> tekniikka))
-  n3       .setNeighbors(Vector(                                                                "vasen" -> klubi))
-  asehuone .setNeighbors(Vector("ylös" -> klubi,                            "alas" -> n2))
-  n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
-  vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
+  def drop(itemname: String) =
+    val itemFromMap = this.playerInventory.get(itemname)
+    itemFromMap match
+      case None => s"Sinulla ei ole tuota!"
+      case Some(n) =>
+        this.playerInventory.remove(n.name)
+        this.currentLocation.addItem(n)
+        s"Tiputat ${itemname}."
+
+  def inventory =
+    if this.playerInventory.isEmpty then
+      "Tavaraluettelo on tyhjä"
+    else
+      "Tavaraluettelossasi on: " + s"\n${this.playerInventory.keys.mkString("\n")}"
+
+  def examine(itemname: String): String =
+    val itemFromInventory = this.playerInventory.get(itemname)
+    itemFromInventory match
+      case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
+      case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
+
+  def has(itemname: String): Boolean =
+    this.playerInventory.contains(itemname)
+
+  def map: String =
+    if this.has("kartta") then
+      "                 #############                 #############             \n"+
+      "                 #           #                 #           #             \n" +
+      "                 #  PIHA     #                 # TEKNIIKKA #             \n" +
+      "                 #           #                 #           #             \n" +
+      "                 #############                 #############             \n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "#############  #############  #############  #############  #############\n" +
+      "#           #  #           #  #           #  #           #  #           #\n" +
+      "#  BUNKKERI ####  AULA     #### NULL      ####  KLUBI    #### NULL      #\n" +
+      "#           #  #           #  #           #  #           #  #           #\n" +
+      "#############  #############  #############  #############  #############\n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "               #############                 #############               \n" +
+      "               #           #                 #           #               \n" +
+      "               #  KÄYTÄVÄ  #                 #ASEVARASTO #               \n" +
+      "               #           #                 #           #               \n" +
+      "               #############                 #############               \n" +
+      "                     #                             #                     \n" +
+      "                     #                             #                     \n" +
+      "               #############                 #############  #############\n" +
+      "               #           #                 #           #  #           #\n" +
+      "               #LABORATORIO###################  NULL     #### HOLVI     #\n" +
+      "               #           #                 #           #  #           #\n" +
+      "               #############                 #############  #############\n"
+    else
+      "Sinulla ei ole karttaa"
+
+  /** Determines if the player has indicated a desire to quit the game. */
+  def hasQuit = this.quitCommandGiven
+
+  /** Returns the player’s current location. */
+  def location = this.currentLocation
 
 
-  piha.addItem(Item("omena", "omena, äbbyl."))
-  klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
-  vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
-  tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
-  asehuone.addItem(Item("ase", "tekee ase asioita"))
-  kvantti.addItem(Item("arduino", "läähkistä"))
-  aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
-  lab.addItem(Item("crafting recipe", "jotai"))
+  /** Attempts to move the player in the given direction. This is successful if there
+    * is an exit from the player’s current location towards the direction name. Returns
+    * a description of the result: "You go DIRECTION." or "You can't go DIRECTION." */
+  def go(direction: String) =
+    val destination = this.location.neighbor(direction)
+    if destination.getOrElse(this.location).name != "Holvi" then //holvin slaus systeemi
+      this.currentLocation = destination.getOrElse(this.currentLocation) // tämä toteutetaan jos kyseessä ei ole holvi
+    else
+      val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
+      if input.get == 2396 then // vaihda salasana haluamaasi
+        this.currentLocation = destination.getOrElse(this.currentLocation) // jos salasana oikein siirrytään huoneeseen
+      else
+        this.currentLocation = this.currentLocation // muuten pidetään tämä lokaatio
+    if destination.isDefined && (destination.get.name != "Holvi") then
+      "Menet " + direction + "."
+    else "Ei ole mahdollista mennä suuntaan " + direction + "."
 
-  /** The character that the player controls in the game. */
-  val player = Player(bunkkeri)
+  def salasana(koodi: Int) =
+    if this.location.name == "n2" && koodi == 2497 then
+      true
+    else
+      false
 
-  /** The number of turns that have passed since the start of the game. */
-  var turnCount = 0
-  /** The maximum number of turns that this adventure game allows before time runs out. */
-  val timeLimit = 200
+  def help : String =
+    "Tässä kaikki komennot:\n" +
+      s"${Console.GREEN} help ${Console.RESET}- Tulostaa tämän tekstin.\n" +
+      s"${Console.GREEN} mene (suunta) ${Console.RESET}- liiku tässä suunnassa olevaan huoneeseen.\n" +
+      s"${Console.GREEN} poimi (esine) ${Console.RESET}- poimi huoneesta löytyvä esine.\n" +
+      s"${Console.GREEN} tiputa (esine) ${Console.RESET}- Tiputa tavaraluettelossasi ollut esine.\n" +
+      s"${Console.GREEN} tavaraluettelo ${Console.RESET}- Listaa tavaraluettelostasi löytyvät esineet.\n" +
+      s"${Console.GREEN} kartta ${Console.RESET}- Tulostaa alueen kartan mikäli sinulla on sellainen.\n" +
+      s"${Console.GREEN} syö ${Console.RESET}- Voit syödä omenan. Syö omena :) SYÖ OMENA!  \n"
 
+  /** Signals that the player wants to quit the game. Returns a description of what happened within
+    * the game as a result (which is the empty string, in this case). */
+  def quit() =
+    this.quitCommandGiven = true
+    ""
 
-  /** Determines if the adventure is complete, that is, if the player has won. */
-  def isComplete = (this.player.location == this.destination) && hasNeededItems
+  /** Returns a brief description of the player’s state, for debugging purposes. */
+  override def toString = "Nyt olet paikassa: " + this.location.name
 
-  /** Determines whether the player has won, lost, or quit, thereby ending the game. */
-  def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit
-
-  private def hasNeededItems: Boolean = (this.player.inventory.contains("battery") && this.player.inventory.contains("remote"))
-
-  /** Returns a message that is to be displayed to the player at the beginning of the game. */
-  def welcomeMessage = "Heräät harmaasta bunkkerista. Päähäsi sattuu, etkä ole varma mitä on tapahtunut."
-
-
-  /** Returns a message that is to be displayed to the player at the end of the game. The message
-    * will be different depending on whether or not the player has completed their quest. */
-  def goodbyeMessage =
-    if this.isComplete then
-      "Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa"
-    else if this.turnCount == this.timeLimit then
-      "Käytit liian monta vuoroa.\n Game over!"
-    else  // game over due to player quitting
-      "Luovuttaja!"
-
-
-  /** Plays a turn by executing the given in-game Yo, such as “go west”. Returns a textual
-    * report of what happened, or an error message if the command was unknown. In the latter
-    * case, no turns elapse. */
-  def playTurn(command: String) =
-    val action = Action(command)
-    val outcomeReport = action.execute(this.player)
-    if outcomeReport.isDefined then
-      this.turnCount += 1
-    outcomeReport.getOrElse(s"""Tuntematon komento: "$command".""")
-
-end Adventure
+end Player
 

@@ -1,5 +1,5 @@
 package o1.adventure
-
+import scala.io.StdIn.*
 import scala.collection.mutable.Map
 
 /** A `Player` object represents a player character controlled by the real-life user
@@ -90,8 +90,23 @@ class Player(startingArea: Area):
     * a description of the result: "You go DIRECTION." or "You can't go DIRECTION." */
   def go(direction: String) =
     val destination = this.location.neighbor(direction)
-    this.currentLocation = destination.getOrElse(this.currentLocation)
-    if destination.isDefined then "Menet " + direction + "." else "Ei ole mahdollista mennä suuntaan " + direction + "."
+    if destination.getOrElse(this.location).name != "Holvi" then //holvin slaus systeemi
+      this.currentLocation = destination.getOrElse(this.currentLocation) // tämä toteutetaan jos kyseessä ei ole holvi
+    else
+      val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
+      if input.get == 2396 then // vaihda salasana haluamaasi
+        this.currentLocation = destination.getOrElse(this.currentLocation) // jos salasana oikein siirrytään huoneeseen
+      else
+        this.currentLocation = this.currentLocation // muuten pidetään tämä lokaatio
+    if destination.isDefined && (destination.get.name != "Holvi") then
+      "Menet " + direction + "."
+    else "Ei ole mahdollista mennä suuntaan " + direction + "."
+
+  def salasana(koodi: Int) =
+    if this.location.name == "n2" && koodi == 2497 then
+      true
+    else
+      false
 
   def help : String =
     "Tässä kaikki komennot:\n" +

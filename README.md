@@ -12,7 +12,7 @@
   - recipe ( )
 - zombi ( )
 - shottikisa-minipeli ( )
-- koodin kirjoitus vaultissa ( )
+- koodin kirjoitus vaultissa (x)
 - golden apple -crafting-minipeli ( )
 - voittoehto ( )
 - komentojen kääntäminen suomeksi (x)
