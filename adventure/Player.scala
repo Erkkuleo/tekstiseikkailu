@@ -48,7 +48,7 @@ class Player(startingArea: Area):
     this.playerInventory.contains(itemname)
 
   def map: String =
-    if playerInventory.contains("kartta") then
+    if this.has("kartta") then
       "                 #############                 #############             \n"+
       "                 #           #                 #           #             \n" +
       "                 #  PIHA     #                 # TEKNIIKKA #             \n" +
