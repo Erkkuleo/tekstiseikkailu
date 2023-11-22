@@ -93,6 +93,15 @@ class Player(startingArea: Area):
     this.currentLocation = destination.getOrElse(this.currentLocation)
     if destination.isDefined then "You go " + direction + "." else "You can't go " + direction + "."
 
+  def help : String =
+    "Tässä kaikki komennot:\n" +
+      s"${Console.GREEN} help ${Console.RESET}- Tulostaa tämän tekstin.\n" +
+      s"${Console.GREEN} mene (suunta) ${Console.RESET}- liiku tässä suunnassa olevaan huoneeseen.\n" +
+      s"${Console.GREEN} poimi (esine) ${Console.RESET}- poimi huoneesta löytyvä esine.\n" +
+      s"${Console.GREEN} tiputa (esine) ${Console.RESET}- Tiputa tavaraluettelossasi ollut esine.\n" +
+      s"${Console.GREEN} tavaraluettelo ${Console.RESET}- Listaa tavaraluettelostasi löytyvät esineet.\n" +
+      s"${Console.GREEN} kartta ${Console.RESET}- Tulostaa alueen kartan mikäli sinulla on sellainen.\n" +
+      s"${Console.GREEN} syö ${Console.RESET}- Voit syödä omenan. Syö omena :) SYÖ OMENA!  \n"
 
 
   /** Causes the player to rest for a short while (this has no substantial effect in game terms).
