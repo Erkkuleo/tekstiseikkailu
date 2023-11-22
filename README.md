@@ -12,6 +12,7 @@
   - recipe ( )
 - zombi ( )
 - shottikisa-minipeli ( )
+  - NPC(x)
 - koodin kirjoitus vaultissa (x)
 - golden apple -crafting-minipeli ( )
 - voittoehto ( )
