@@ -19,30 +19,30 @@ class Player(startingArea: Area):
     if this.currentLocation.contains(itemname) then
       val removedItem = this.currentLocation.removeItem(itemname)
       removedItem.foreach( n => this.playerInventory += n.name -> n )
-      s"You pick up the ${itemname}."
+      s"Poimit ${itemname}."
     else
-      s"There is no ${itemname} here to pick up."
+      s"Täällä ei ole ${itemname} poimittavaksi."
 
   def drop(itemname: String) =
     val itemFromMap = this.playerInventory.get(itemname)
     itemFromMap match
-      case None => s"You don't have that!"
+      case None => s"Sinulla ei ole tuota!"
       case Some(n) =>
         this.playerInventory.remove(n.name)
         this.currentLocation.addItem(n)
-        s"You drop the ${itemname}."
+        s"Tiputat ${itemname}."
 
   def inventory =
     if this.playerInventory.isEmpty then
-      "You are empty-handed"
+      "Tavaraluettelo on tyhjä"
     else
-      "You are carrying: " + s"\n${this.playerInventory.keys.mkString("\n")}"
+      "Tavaraluettelossasi on: " + s"\n${this.playerInventory.keys.mkString("\n")}"
 
   def examine(itemname: String): String =
     val itemFromInventory = this.playerInventory.get(itemname)
     itemFromInventory match
-      case None    => "If you want to examine something, you need to pick it up first."
-      case Some(n) => s"You look closely at the ${n.name}.\n${n.description}"
+      case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
+      case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -91,7 +91,7 @@ class Player(startingArea: Area):
   def go(direction: String) =
     val destination = this.location.neighbor(direction)
     this.currentLocation = destination.getOrElse(this.currentLocation)
-    if destination.isDefined then "You go " + direction + "." else "You can't go " + direction + "."
+    if destination.isDefined then "Menet " + direction + "." else "Ei ole mahdollista mennä suuntaan " + direction + "."
 
   def help : String =
     "Tässä kaikki komennot:\n" +
@@ -103,13 +103,6 @@ class Player(startingArea: Area):
       s"${Console.GREEN} kartta ${Console.RESET}- Tulostaa alueen kartan mikäli sinulla on sellainen.\n" +
       s"${Console.GREEN} syö ${Console.RESET}- Voit syödä omenan. Syö omena :) SYÖ OMENA!  \n"
 
-
-  /** Causes the player to rest for a short while (this has no substantial effect in game terms).
-    * Returns a description of what happened. */
-  def rest() =
-    "You rest for a while. Better get a move on, though."
-
-
   /** Signals that the player wants to quit the game. Returns a description of what happened within
     * the game as a result (which is the empty string, in this case). */
   def quit() =
@@ -117,7 +110,7 @@ class Player(startingArea: Area):
     ""
 
   /** Returns a brief description of the player’s state, for debugging purposes. */
-  override def toString = "Now at: " + this.location.name
+  override def toString = "Nyt olet paikassa: " + this.location.name
 
 end Player
 

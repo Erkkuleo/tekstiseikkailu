@@ -42,7 +42,7 @@ class Adventure:
   n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
   vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
 
-  
+
   piha.addItem(Item("omena", "omena, äbbyl."))
   klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
@@ -70,21 +70,21 @@ class Adventure:
   private def hasNeededItems: Boolean = (this.player.inventory.contains("battery") && this.player.inventory.contains("remote"))
 
   /** Returns a message that is to be displayed to the player at the beginning of the game. */
-  def welcomeMessage = "You are lost in the woods. Find your way back home.\n\nBetter hurry, 'cause Scalatut elämät is on real soon now. And you can't miss Scalkkarit, right?"
+  def welcomeMessage = "Heräät harmaasta bunkkerista. Päähäsi sattuu, etkä ole varma mitä on tapahtunut."
 
 
   /** Returns a message that is to be displayed to the player at the end of the game. The message
     * will be different depending on whether or not the player has completed their quest. */
   def goodbyeMessage =
     if this.isComplete then
-      "Home at last... and phew, just in time! Well done!"
+      "Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa"
     else if this.turnCount == this.timeLimit then
-      "Oh no! Time's up. Starved of entertainment, you collapse and weep like a child.\nGame over!"
+      "Käytit liian monta vuoroa.\n Game over!"
     else  // game over due to player quitting
-      "Quitter!"
+      "Luovuttaja!"
 
 
-  /** Plays a turn by executing the given in-game command, such as “go west”. Returns a textual
+  /** Plays a turn by executing the given in-game Yo, such as “go west”. Returns a textual
     * report of what happened, or an error message if the command was unknown. In the latter
     * case, no turns elapse. */
   def playTurn(command: String) =
@@ -92,7 +92,7 @@ class Adventure:
     val outcomeReport = action.execute(this.player)
     if outcomeReport.isDefined then
       this.turnCount += 1
-    outcomeReport.getOrElse(s"""Unknown command: "$command".""")
+    outcomeReport.getOrElse(s"""Tuntematon komento: "$command".""")
 
 end Adventure
 

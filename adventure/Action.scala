@@ -15,15 +15,15 @@ class Action(input: String):
     * of the action (such as “You go west.”). The description is returned in an `Option`
     * wrapper; if the command was not recognized, `None` is returned. */
   def execute(actor: Player) = this.verb match
-    case "mene"        => Some(actor.go(this.modifiers))
-    case "lopeta"      => Some(actor.quit())
-    case "poimi"       => Some(actor.get(this.modifiers))
-    case "tiputa"      => Some(actor.drop(this.modifiers))
-    case "tutki"   => Some(actor.examine(this.modifiers))
+    case "mene"           => Some(actor.go(this.modifiers))
+    case "lopeta"         => Some(actor.quit())
+    case "poimi"          => Some(actor.get(this.modifiers))
+    case "tiputa"         => Some(actor.drop(this.modifiers))
+    case "tutki"          => Some(actor.examine(this.modifiers))
     case "tavaraluettelo" => Some(actor.inventory)
-    case "kartta"    => Some(actor.map)
-    case "help"      => Some(actor.help)
-    case other       => None
+    case "kartta"         => Some(actor.map)
+    case "help"           => Some(actor.help)
+    case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */
   override def toString = s"$verb (modifiers: $modifiers)"
