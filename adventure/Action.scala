@@ -24,6 +24,7 @@ class Action(input: String):
     case "kartta"         => Some(actor.map)
     case "help"           => Some(actor.help)
     case "juttele"        => Some(actor.juttele(this.modifiers))
+    case "scanneri"       => Some(actor.zombiLocation)
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */

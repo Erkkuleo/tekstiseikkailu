@@ -44,7 +44,6 @@ class Adventure:
   n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
   vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
 
-
   piha.addItem(Item("omena", "omena, äbbyl."))
   klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
@@ -58,6 +57,7 @@ class Adventure:
   klubi.addNpc(NPC("teemu teekkari", Buffer[String]("vedä viinaa")))
   /** The character that the player controls in the game. */
   val player = Player(bunkkeri)
+  val zombi = Zombi(n3)
 
   /** The number of turns that have passed since the start of the game. */
   var turnCount = 0

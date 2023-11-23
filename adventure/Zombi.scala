@@ -13,7 +13,6 @@ class Zombi(startingArea : Area):
   /** Palauttaa zombin sijainnin */
   def location = this.currentLocation
 
-
   /** Liikuttaa zombia satunnaisesti valittuun suuntaan. Metodi ensin käy läpi kaikki
     * mahdolliset suunnat, jonka jälkeen arpoo näistä jonkun, johon zombi liikkuu. */
   def zombiGo(): Unit =
@@ -24,7 +23,9 @@ class Zombi(startingArea : Area):
     val possibleDirSize = possibleDirections.size
     val newRandomDirection = possibleDirections(Random.nextInt(possibleDirSize - 1))
     val destination = this.location.neighbor(newRandomDirection)
+    this.currentLocation.zombiLeaves()
     this.currentLocation = destination.getOrElse(this.currentLocation)
+    this.currentLocation.zombiMovesHere()
 
   /** Palauttaa zombin sijainnin */
   override def toString = "Zombin sijainti: " + this.location.name

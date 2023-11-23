@@ -17,6 +17,14 @@ class Area(var name: String, var description: String):
 
   private val npc = Map[String, NPC]()
 
+  var zombiIsHere : Boolean = false
+
+  def zombiMovesHere() =
+    zombiIsHere = true
+
+  def zombiLeaves() =
+    zombiIsHere = false
+
   def getNpc = npc
 
   def addNpc(NPC: NPC) =

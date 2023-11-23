@@ -1,6 +1,8 @@
 package o1.adventure
+import scala.collection.mutable
+import scala.collection.mutable.*
 import scala.io.StdIn.*
-import scala.collection.mutable.Map
+
 
 
 /** A `Player` object represents a player character controlled by the real-life user
@@ -46,13 +48,13 @@ class Player(startingArea: Area):
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
 
-
+  
   def juttele(NPC: String): String =
     val npc = this.location.getNpc.get(NPC)
     npc match
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"${n.name}: ${n.liners.head}"
-
+  
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -115,11 +117,22 @@ class Player(startingArea: Area):
         "Ei ole mahdollista mennä suuntaan " + direction + "."
 
 
-  def salasana(koodi: Int) =
-    if this.location.name == "n2" && koodi == 2497 then
-      true
+  def getThisAreaNeighbors() =
+    val suunnat = Buffer[String]("ylös", "oikea", "alas", "vasen")
+    var validitSuunnat = Buffer[String]()
+    for i <- suunnat do
+      if this.location.neighbor(i).isDefined then
+        validitSuunnat += i
+    validitSuunnat
+
+  def zombiLocation =
+    val suunnat = getThisAreaNeighbors().map(n => this.location.neighbor(n))
+    val zombisuunta =suunnat.find(n => n.get.zombiIsHere).flatten
+    if zombisuunta.isDefined then
+      zombisuunta.head.name
     else
-      false
+      "zombi ei ole viereisessä huoneessa"
+
 
   def help : String =
     "Tässä kaikki komennot:\n" +
