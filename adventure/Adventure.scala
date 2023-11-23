@@ -44,12 +44,40 @@ class Adventure:
   n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
   vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
 
+
   piha.addItem(Item("omena", "omena, äbbyl."))
   klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
   tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
   asehuone.addItem(Item("ase", "tekee ase asioita"))
-  kvantti.addItem(Item("arduino", "läähkistä"))
+  kvantti.addItem(Item("arduino","                                      .-----.                     \n" +
+                                 "         .----[PWR]-------------------| USB |--.                  \n" +
+                                 "         |                            '-----'  |                  \n" +
+                                 "         |         GND/RST2  [ ][ ]            |                  \n" +
+                                 "         |       MOSI2/SCK2  [ ][ ]  A5/SCL[ ] |                  \n" +
+                                 "         |          5V/MISO2 [ ][ ]  A4/SDA[ ] |                  \n" +
+                                 "         |                             AREF[ ] |                  \n" +
+                                 "         |                             AREF[ ] |                  \n" +
+                                 "         |                              GND[ ] |                  \n" +
+                                 "         | [ ]NC                     SCK/13[ ] |                  \n" +
+                                 "         | [ ]v.ref                 MISO/12[ ] |                  \n" +
+                                 "         | [ ]RST                   MOSI/11[ ]~|                  \n" +
+                                 "         | [ ]3V3    +---+               10[ ]~|                  \n" +
+                                 "         | [ ]5v     | A |                9[ ]~|                  \n" +
+                                 "         | [ ]GND   -| R |-               8[ ] |                  \n" +
+                                 "         | [ ]GND   -| D |-                    |                  \n" +
+                                 "         | [ ]Vin   -| U |-               7[ ] |                  \n" +
+                                 "         |          -| I |-               6[ ]~|                  \n" +
+                                 "         | [ ]A0    -| N |-               5[ ]~|                  \n" +
+                                 "         | [ ]A1    -| O |-               4[ ] |                  \n" +
+                                 "         | [ ]A2     +---+           INT1/3[ ]~|                  \n" +
+                                 "         | [ ]A3                     INT0/2[ ] |                  \n" +
+                                 "         | [ ]A4/SDA  RST SCK MISO     TX>1[ ] |                  \n" +
+                                 "         | [ ]A5/SCL  [ ] [ ] [ ]      RX<0[ ] |                  \n" +
+                                 "         |            [ ] [ ] [ ]              |                  \n" +
+                                 "         '--.                         .--------'                  \n" +
+                                 "             \\_______________________/                              " ))
+
   kvantti.addItem(Item("oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
   aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
   lab.addItem(Item("crafting recipe", "jotai"))

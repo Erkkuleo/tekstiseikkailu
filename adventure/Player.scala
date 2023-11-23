@@ -126,13 +126,15 @@ class Player(startingArea: Area):
     validitSuunnat
 
   def zombiLocation =
-    val suunnat = getThisAreaNeighbors().map(n => this.location.neighbor(n))
-    val zombisuunta =suunnat.find(n => n.get.zombiIsHere).flatten
-    if zombisuunta.isDefined then
-      zombisuunta.head.name
+    if has("skanneri") then
+      val suunnat = getThisAreaNeighbors().map(n => this.location.neighbor(n))
+        val zombisuunta =suunnat.find(n => n.get.zombiIsHere).flatten
+      if zombisuunta.isDefined then
+        s"zombi on viereisessä huoneessa ${zombisuunta.head.name}"
+      else
+        "zombi ei ole viereisessä huoneessa"
     else
-      "zombi ei ole viereisessä huoneessa"
-
+      "sinulla ei ole scanneria"
 
   def help : String =
     "Tässä kaikki komennot:\n" +

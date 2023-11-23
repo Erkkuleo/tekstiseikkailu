@@ -6,7 +6,7 @@
   - weakness potion ( )
   - kulta (x)
   - skanneri (x)
-    - komenon rajoittaminen vain silloin kun inventaariossa on skanneri( )
+    - komenon rajoittaminen vain silloin kun inventaariossa on skanneri(x)
   - ase ( )
   - arduino (x)
   - map-item (x)
