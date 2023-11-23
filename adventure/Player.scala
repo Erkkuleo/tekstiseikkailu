@@ -12,9 +12,8 @@ import scala.io.StdIn.*
   * for instance.
   *
   * @param startingArea  the player’s initial location */
-class Player(startingArea: Area):
+class Player(startingArea: Area) extends Character(startingArea):
 
-  private var currentLocation = startingArea        // gatherer: changes in relation to the previous location
   private var quitCommandGiven = false              // one-way flag
   private val playerInventory = Map[String, Item]()
 
@@ -93,42 +92,31 @@ class Player(startingArea: Area):
   /** Determines if the player has indicated a desire to quit the game. */
   def hasQuit = this.quitCommandGiven
 
-  /** Returns the player’s current location. */
-  def location = this.currentLocation
-
-
   /** Attempts to move the player in the given direction. This is successful if there
     * is an exit from the player’s current location towards the direction name. Returns
     * a description of the result: "You go DIRECTION." or "You can't go DIRECTION." */
   def go(direction: String) =
-    val destination = this.location.neighbor(direction)
-    if destination.getOrElse(this.location).name != "Holvi" then //holvin slaus systeemi
-      this.currentLocation = destination.getOrElse(this.currentLocation) // tämä toteutetaan jos kyseessä ei ole holvi
+    val destination = this.currentLocation.neighbor(direction)
+    if destination.getOrElse(this.currentLocation).name != "Holvi" then //holvin slaus systeemi
+      this.newLocation(destination.getOrElse(this.currentLocation)) // tämä toteutetaan jos kyseessä ei ole holvi
       if destination.isDefined then
         "Menet " + direction + "."
       else "Ei ole mahdollista mennä suuntaan " + direction + "."
     else
       val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
       if input.get == 2396 then // vaihda salasana haluamaasi
-        this.currentLocation = destination.getOrElse(this.currentLocation) // jos salasana oikein siirrytään huoneeseen
+        this.newLocation(destination.getOrElse(this.currentLocation)) // jos salasana oikein siirrytään huoneeseen
         "Menet " + direction + "."
-      else
-        this.currentLocation = this.currentLocation // muuten pidetään tämä lokaatio
+      else // muuten pidetään tämä lokaatio
         "Ei ole mahdollista mennä suuntaan " + direction + "."
 
 
-  def getThisAreaNeighbors() =
-    val suunnat = Buffer[String]("ylös", "oikea", "alas", "vasen")
-    var validitSuunnat = Buffer[String]()
-    for i <- suunnat do
-      if this.location.neighbor(i).isDefined then
-        validitSuunnat += i
-    validitSuunnat
+  def meetsZombie: Boolean = this.currentLocation.zombiIsHere
 
   def zombiLocation =
     if has("skanneri") then
-      val suunnat = getThisAreaNeighbors().map(n => this.location.neighbor(n))
-        val zombisuunta =suunnat.find(n => n.get.zombiIsHere).flatten
+      val suunnat = this.currentLocation.validDirections.map(n => this.currentLocation.neighbor(n))
+      val zombisuunta = suunnat.find(n => n.get.zombiIsHere).flatten
       if zombisuunta.isDefined then
         s"zombi on viereisessä huoneessa ${zombisuunta.head.name}"
       else

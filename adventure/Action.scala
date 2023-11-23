@@ -14,8 +14,8 @@ class Action(input: String):
     * that the command was understood. Returns a description of what happened as a result
     * of the action (such as “You go west.”). The description is returned in an `Option`
     * wrapper; if the command was not recognized, `None` is returned. */
-  def execute(actor: Player) = this.verb match
-    case "mene"           => Some(actor.go(this.modifiers))
+  def execute(actor: Player, zombie: Zombi) = this.verb match
+    case "mene"           => Some(actor.go(this.modifiers) + " " + zombie.zombiGo())
     case "lopeta"         => Some(actor.quit())
     case "poimi"          => Some(actor.get(this.modifiers))
     case "tiputa"         => Some(actor.drop(this.modifiers))
@@ -24,7 +24,7 @@ class Action(input: String):
     case "kartta"         => Some(actor.map)
     case "help"           => Some(actor.help)
     case "juttele"        => Some(actor.juttele(this.modifiers))
-    case "scanneri"       => Some(actor.zombiLocation)
+    case "skanneri"       => Some(actor.zombiLocation)
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */

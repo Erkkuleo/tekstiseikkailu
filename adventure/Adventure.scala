@@ -83,7 +83,6 @@ class Adventure:
   lab.addItem(Item("crafting recipe", "jotai"))
 
   klubi.addNpc(NPC("teemu teekkari", Buffer[String]("vedä viinaa")))
-  /** The character that the player controls in the game. */
   val player = Player(bunkkeri)
   val zombi = Zombi(n3)
 
@@ -130,7 +129,7 @@ class Adventure:
     * case, no turns elapse. */
   def playTurn(command: String) =
     val action = Action(command)
-    val outcomeReport = action.execute(this.player)
+    val outcomeReport = action.execute(this.player, this.zombi)
     if outcomeReport.isDefined then
       this.turnCount += 1
     outcomeReport.getOrElse(s"""Tuntematon komento: "$command".""")

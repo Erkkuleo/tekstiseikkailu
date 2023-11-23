@@ -1,6 +1,6 @@
 package o1.adventure
 
-import scala.collection.mutable.Map
+import scala.collection.mutable.{Buffer, Map}
 
 /** The class `Area` represents locations in a text adventure game world. A game world
   * consists of areas. In general, an “area” can be pretty much anything: a room, a building,
@@ -16,6 +16,8 @@ class Area(var name: String, var description: String):
   private val neighbors = Map[String, Area]()
 
   private val npc = Map[String, NPC]()
+  
+  private val suunnat = Buffer[String]("ylös", "oikea", "alas", "vasen")
 
   var zombiIsHere : Boolean = false
 
@@ -25,19 +27,21 @@ class Area(var name: String, var description: String):
   def zombiLeaves() =
     zombiIsHere = false
 
-  def getNpc = npc
-
-  def addNpc(NPC: NPC) =
-    this.npc += NPC.name -> NPC
+  def getNpc: Map[String, NPC] = this.npc
+  
+  def getSuunnat: Buffer[String] = this.suunnat
+  
+  def addNpc(newNPC: NPC) =
+    this.npc += newNPC.name -> newNPC
 
   def addItem(item: Item) =
     this.items += item.name -> item
 
-  def contains(itemname: String): Boolean =
-    this.items.contains(itemname)
+  def contains(itemName: String): Boolean =
+    this.items.contains(itemName)
 
-  def removeItem(itemname: String): Option[Item] =
-    this.items.remove(itemname)
+  def removeItem(itemName: String): Option[Item] =
+    this.items.remove(itemName)
 
   /** Returns the area that can be reached from this area by moving in the given direction. The result
     * is returned in an `Option`; `None` is returned if there is no exit in the given direction. */
@@ -55,6 +59,12 @@ class Area(var name: String, var description: String):
   def setNeighbors(exits: Vector[(String, Area)]) =
     this.neighbors ++= exits
 
+  def validDirections: Buffer[String] =
+    var validitSuunnat = Buffer[String]()
+    for i <- this.suunnat do
+      if neighbor(i).isDefined then
+        validitSuunnat += i
+    validitSuunnat
 
   /** Returns a multi-line description of the area as a player sees it. This includes a basic
     * description of the area as well as information about exits and items. If there are no
