@@ -2,6 +2,7 @@ package o1.adventure
 import scala.io.StdIn.*
 import scala.collection.mutable.Map
 
+
 /** A `Player` object represents a player character controlled by the real-life user
   * of the program.
   *
@@ -20,6 +21,7 @@ class Player(startingArea: Area):
       val removedItem = this.currentLocation.removeItem(itemname)
       removedItem.foreach( n => this.playerInventory += n.name -> n )
       s"Poimit ${itemname}."
+
     else
       s"Täällä ei ole ${itemname} poimittavaksi."
 
@@ -44,13 +46,13 @@ class Player(startingArea: Area):
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
 
-  
+
   def juttele(NPC: String): String =
     val npc = this.location.getNpc.get(NPC)
     npc match
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"${n.name}: ${n.liners.head}"
-  
+
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -100,15 +102,18 @@ class Player(startingArea: Area):
     val destination = this.location.neighbor(direction)
     if destination.getOrElse(this.location).name != "Holvi" then //holvin slaus systeemi
       this.currentLocation = destination.getOrElse(this.currentLocation) // tämä toteutetaan jos kyseessä ei ole holvi
+      if destination.isDefined then
+        "Menet " + direction + "."
+      else "Ei ole mahdollista mennä suuntaan " + direction + "."
     else
       val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
       if input.get == 2396 then // vaihda salasana haluamaasi
         this.currentLocation = destination.getOrElse(this.currentLocation) // jos salasana oikein siirrytään huoneeseen
+        "Menet " + direction + "."
       else
         this.currentLocation = this.currentLocation // muuten pidetään tämä lokaatio
-    if destination.isDefined && (destination.get.name != "Holvi") then
-      "Menet " + direction + "."
-    else "Ei ole mahdollista mennä suuntaan " + direction + "."
+        "Ei ole mahdollista mennä suuntaan " + direction + "."
+
 
   def salasana(koodi: Int) =
     if this.location.name == "n2" && koodi == 2497 then

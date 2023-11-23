@@ -1,6 +1,7 @@
 package o1.adventure
 
 import scala.collection.mutable.*
+import scala.io.StdIn.*
 /** The class `Adventure` represents text adventure games. An adventure consists of a player and
   * a number of areas that make up the game world. It provides methods for playing the game one
   * turn at a time and for checking the state of the game.
@@ -50,7 +51,7 @@ class Adventure:
   tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
   asehuone.addItem(Item("ase", "tekee ase asioita"))
   kvantti.addItem(Item("arduino", "läähkistä"))
-  kvantti.addItem(Item("Oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
+  kvantti.addItem(Item("oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
   aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
   lab.addItem(Item("crafting recipe", "jotai"))
 
@@ -70,7 +71,7 @@ class Adventure:
   /** Determines whether the player has won, lost, or quit, thereby ending the game. */
   def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit
 
-  private def hasNeededItems: Boolean = (this.player.inventory.contains("battery") && this.player.inventory.contains("remote"))
+  private def hasNeededItems: Boolean = (this.player.inventory.contains("omena") && this.player.inventory.contains("weakness potion") && this.player.inventory.contains("kultaharkko"))
 
   /** Returns a message that is to be displayed to the player at the beginning of the game. */
   def welcomeMessage = "Heräät harmaasta bunkkerista. Päähäsi sattuu, etkä ole varma mitä on tapahtunut."
@@ -79,13 +80,22 @@ class Adventure:
   /** Returns a message that is to be displayed to the player at the end of the game. The message
     * will be different depending on whether or not the player has completed their quest. */
   def goodbyeMessage =
-    if this.isComplete then
+    if this.player.inventory.contains("arduino") && this.isComplete then
+       println("Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Pääset nyt leikkimään arduinolla")
+       arduinopeli()
+    else if this.isComplete then
       "Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa"
     else if this.turnCount == this.timeLimit then
       "Käytit liian monta vuoroa.\n Game over!"
     else  // game over due to player quitting
       "Luovuttaja!"
 
+  def arduinopeli() : String =
+    var komento = readLine("mikä komennolla määritetään digitaalinen pin 12 annoksi?")
+    komento match
+      case "pinMode(12, OUTPUT);" => "oikein! hyvä :)"
+      case "pinMode(12,OUTPUT);" => "oikein! hyvä :)"
+      case _ => "väärin" + arduinopeli()
 
   /** Plays a turn by executing the given in-game Yo, such as “go west”. Returns a textual
     * report of what happened, or an error message if the command was unknown. In the latter
