@@ -25,10 +25,10 @@ class Action(input: String):
     case "help"           => Some(actor.help)
     case "juttele"        => Some(actor.juttele(this.modifiers))
     case "skanneri"       => Some(actor.zombiLocation)
+    case "syö"            => Some(actor.syö(this.modifiers))
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */
   override def toString = s"$verb (modifiers: $modifiers)"
 
 end Action
-

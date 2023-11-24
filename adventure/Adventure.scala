@@ -96,8 +96,9 @@ class Adventure:
   def isComplete = (this.player.location == this.destination) && hasNeededItems
 
   /** Determines whether the player has won, lost, or quit, thereby ending the game. */
-  def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit
+  def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit || player.battle
 
+  
   private def hasNeededItems: Boolean = (this.player.inventory.contains("omena") && this.player.inventory.contains("weakness potion") && this.player.inventory.contains("kultaharkko"))
 
   /** Returns a message that is to be displayed to the player at the beginning of the game. */
@@ -135,4 +136,3 @@ class Adventure:
     outcomeReport.getOrElse(s"""Tuntematon komento: "$command".""")
 
 end Adventure
-

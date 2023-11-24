@@ -2,7 +2,7 @@ package o1.adventure
 import scala.collection.mutable
 import scala.collection.mutable.*
 import scala.io.StdIn.*
-
+import scala.util.Random
 
 
 /** A `Player` object represents a player character controlled by the real-life user
@@ -35,6 +35,18 @@ class Player(startingArea: Area) extends Character(startingArea):
         this.currentLocation.addItem(n)
         s"Tiputat ${itemname}."
 
+  def syö(itemName:  String) =
+    val itemFromInv = this.playerInventory.get(itemName)
+    itemFromInv match
+      case None => s"Sinulla ei ole tuota!"
+      case Some(n) =>
+        if n.name == "omena" then
+          this.playerInventory.remove(n.name)
+          s"syöt omenan"
+        else
+          s"Ei tätä voi syödä!"
+      case _ => "Ei tätä voi syödä!"
+
   def inventory =
     if this.playerInventory.isEmpty then
       "Tavaraluettelo on tyhjä"
@@ -47,13 +59,13 @@ class Player(startingArea: Area) extends Character(startingArea):
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"Katsot tarkasti ${n.name}.\n${n.description}"
 
-  
+
   def juttele(NPC: String): String =
     val npc = this.location.getNpc.get(NPC)
     npc match
       case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
       case Some(n) => s"${n.name}: ${n.liners.head}"
-  
+
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -124,6 +136,18 @@ class Player(startingArea: Area) extends Character(startingArea):
     else
       "sinulla ei ole scanneria"
 
+  def battle =
+    if meetsZombie then
+      var r = Random()
+      var zombieRandom = r.nextInt(100)
+      var playerRandom = r.nextInt(100)
+      if (zombieRandom - playerRandom) <= 0 then
+        true
+      else
+        false
+    else
+      false
+
   def help : String =
     "Tässä kaikki komennot:\n" +
       s"${Console.GREEN} help ${Console.RESET}- Tulostaa tämän tekstin.\n" +
@@ -144,4 +168,3 @@ class Player(startingArea: Area) extends Character(startingArea):
   override def toString = "Nyt olet paikassa: " + this.location.name
 
 end Player
-

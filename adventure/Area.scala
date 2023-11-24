@@ -88,4 +88,3 @@ class Area(var name: String, var description: String):
   override def toString = this.name + ": " + this.description.replaceAll("\n", " ").take(150)
 
 end Area
-

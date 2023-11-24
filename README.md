@@ -2,7 +2,8 @@
 # todo
 - mappi (X)
 - itemit ( )
-  - omena ( )
+  - omena (x)
+    - mahdollista syödä(x)
   - weakness potion ( )
   - kulta (x)
   - skanneri (x)
@@ -14,8 +15,10 @@
   - recipe ( )
 - zombi ( )
   - zombi liikkuu (X)
-  - zombin kanssa tappeleminen ( )
-    - player pystyy tarkistamaan, onko hän samassa huoneessa zombin kanssa, mutta mitään ei tapahdu
+  - zombin kanssa tappeleminen (kinda nyt arpoo luvun 0-99 ja se kumman luku lähempänä 0 voitta)
+    - viestit tapahtumista puuttuu
+  - player pystyy tarkistamaan, onko hän samassa huoneessa zombin kanssa, mutta mitään ei tapahdu(x)
+  - pitää estää zombin pääsy kvanttiin( )
 - shottikisa-minipeli ( )
   - NPC(x)
 - koodin kirjoitus vaultissa (x)
