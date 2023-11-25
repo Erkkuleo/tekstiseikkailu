@@ -12,10 +12,13 @@ import scala.util.Random
   * for instance.
   *
   * @param startingArea  the player’s initial location */
-class Player(startingArea: Area) extends Character(startingArea):
+class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
 
   private var quitCommandGiven = false              // one-way flag
   private val playerInventory = Map[String, Item]()
+  private var voittanutPelin = false
+  private var peliAloitettu = false
+  private var kuollut = false
 
   def get(itemname: String) =
     if this.currentLocation.contains(itemname) then
@@ -46,6 +49,19 @@ class Player(startingArea: Area) extends Character(startingArea):
         else
           s"Ei tätä voi syödä!"
       case _ => "Ei tätä voi syödä!"
+
+  def pelaa =
+    if this.currentLocation.name != "Klubi" then
+      "Täällä ei voi pelata mitään."
+    else
+      if voittanutPelin || peliAloitettu then
+        "Olet jo voittanut pelin tai peli on jo aloitettu."
+      else
+        peliAloitettu = true
+        "Pelataan shottikisaa!!!\n\nPeli on helppo, joka kierroksella ota shotti! Katsotaan kumpi sammuu ensimmäisenä." +
+          "Pelataksesi peliä kirjoita jokaisella pelin kierroksella kometo \"juo\"."
+
+  def onKuollut = this.kuollut
 
   def inventory =
     if this.playerInventory.isEmpty then
@@ -107,20 +123,33 @@ class Player(startingArea: Area) extends Character(startingArea):
   /** Attempts to move the player in the given direction. This is successful if there
     * is an exit from the player’s current location towards the direction name. Returns
     * a description of the result: "You go DIRECTION." or "You can't go DIRECTION." */
-  def go(direction: String) =
+  def go(direction: String): String =
     val destination = this.currentLocation.neighbor(direction)
-    if destination.getOrElse(this.currentLocation).name != "Holvi" then //holvin slaus systeemi
-      this.newLocation(destination.getOrElse(this.currentLocation)) // tämä toteutetaan jos kyseessä ei ole holvi
-      if destination.isDefined then
-        "Menet " + direction + "."
-      else "Ei ole mahdollista mennä suuntaan " + direction + "."
+    if enemy.nextLocation.isDefined && (destination.head == enemy.nextLocation.head) then
+      var outcome = "Jouduit samaan huoneeseen zombin kanssa! Kiivaan tappelun seurauksena "
+      this.battle
+      if !this.onKuollut then
+        val sallitutSuunnat = this.currentLocation.validDirections
+        val satunnainenSuunta = sallitutSuunnat(Random.nextInt(sallitutSuunnat.size))
+        this.newLocation(destination.head.neighbor(satunnainenSuunta).getOrElse(this.currentLocation))
+        outcome +=  "selvisit. Pakenet nopeasti paikalta sattumanvaraiseen huoneeseen."
+        outcome
+      else
+        outcome += "kuolit."
+        outcome
     else
-      val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
-      if input.get == 2396 then // vaihda salasana haluamaasi
-        this.newLocation(destination.getOrElse(this.currentLocation)) // jos salasana oikein siirrytään huoneeseen
-        "Menet " + direction + "."
-      else // muuten pidetään tämä lokaatio
-        "Ei ole mahdollista mennä suuntaan " + direction + "."
+      if destination.getOrElse(this.currentLocation).name != "Holvi" then //holvin salaus systeemi
+        this.newLocation(destination.getOrElse(this.currentLocation)) // tämä toteutetaan jos kyseessä ei ole holvi
+        if destination.isDefined then
+          "Menet " + direction + "."
+        else "Ei ole mahdollista mennä suuntaan " + direction + "."
+      else
+        val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
+        if input.get == 2396 then // vaihda salasana haluamaasi
+          this.newLocation(destination.getOrElse(this.currentLocation)) // jos salasana oikein siirrytään huoneeseen
+          "Menet " + direction + "."
+        else // muuten pidetään tämä lokaatio
+          "Ei ole mahdollista mennä suuntaan " + direction + "."
 
 
   def meetsZombie: Boolean = this.currentLocation.zombiIsHere
@@ -134,19 +163,12 @@ class Player(startingArea: Area) extends Character(startingArea):
       else
         "zombi ei ole viereisessä huoneessa"
     else
-      "sinulla ei ole scanneria"
+      "sinulla ei ole skanneria"
 
   def battle =
-    if meetsZombie then
-      var r = Random()
-      var zombieRandom = r.nextInt(100)
-      var playerRandom = r.nextInt(100)
-      if (zombieRandom - playerRandom) <= 0 then
-        true
-      else
-        false
-    else
-      false
+    val r = Random.nextInt(100)
+    if r < 50 then
+      this.kuollut = true
 
   def help : String =
     "Tässä kaikki komennot:\n" +

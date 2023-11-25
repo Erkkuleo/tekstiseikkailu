@@ -2,6 +2,7 @@ package o1.adventure
 
 import scala.collection.mutable.*
 import scala.io.StdIn.*
+import scala.util.Random
 /** The class `Adventure` represents text adventure games. An adventure consists of a player and
   * a number of areas that make up the game world. It provides methods for playing the game one
   * turn at a time and for checking the state of the game.
@@ -30,19 +31,19 @@ class Adventure:
   private val vault     = Area("Holvi", "Kultaharkot kimaltavat, partavesi tuoksuu.")
   private val destination = lab
 
-  bunkkeri .setNeighbors(Vector(                     "oikea" -> aula))
-  aula     .setNeighbors(Vector("ylös" -> piha,      "oikea" -> n1,         "alas" -> kaytava,  "vasen" -> bunkkeri))
-  piha     .setNeighbors(Vector(                                            "alas" -> aula))
-  kaytava  .setNeighbors(Vector("ylös" -> aula,                             "alas" -> lab))
-  lab      .setNeighbors(Vector("ylös" -> kaytava,   "oikea" -> n2))
-  n1       .setNeighbors(Vector(                     "oikea" -> klubi,                          "vasen" -> aula))
-  klubi    .setNeighbors(Vector("ylös" -> tekniikka, "oikea" -> n3,         "alas" -> asehuone, "vasen" -> n1))
-  tekniikka.setNeighbors(Vector(                                            "alas" -> klubi,    "vasen" -> kvantti))
-  kvantti  .setNeighbors(Vector(                     "oikea" -> tekniikka))
-  n3       .setNeighbors(Vector(                                                                "vasen" -> klubi))
-  asehuone .setNeighbors(Vector("ylös" -> klubi,                            "alas" -> n2))
-  n2       .setNeighbors(Vector("ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
-  vault    .setNeighbors(Vector(                                                                "vasen" -> n2))
+  bunkkeri .setNeighbors(Vector("ei minnekään" -> bunkkeri ,                      "oikea" -> aula))
+  aula     .setNeighbors(Vector("ei minnekään" -> aula     , "ylös" -> piha,      "oikea" -> n1,         "alas" -> kaytava,  "vasen" -> bunkkeri))
+  piha     .setNeighbors(Vector("ei minnekään" -> piha     ,                                             "alas" -> aula))
+  kaytava  .setNeighbors(Vector("ei minnekään" -> kaytava  , "ylös" -> aula,                             "alas" -> lab))
+  lab      .setNeighbors(Vector("ei minnekään" -> lab      , "ylös" -> kaytava,   "oikea" -> n2))
+  n1       .setNeighbors(Vector("ei minnekään" -> n1       ,                      "oikea" -> klubi,                          "vasen" -> aula))
+  klubi    .setNeighbors(Vector("ei minnekään" -> klubi    , "ylös" -> tekniikka, "oikea" -> n3,         "alas" -> asehuone, "vasen" -> n1))
+  tekniikka.setNeighbors(Vector("ei minnekään" -> tekniikka,                                             "alas" -> klubi,    "vasen" -> kvantti))
+  kvantti  .setNeighbors(Vector("ei minnekään" -> kvantti  ,                      "oikea" -> tekniikka))
+  n3       .setNeighbors(Vector("ei minnekään" -> n3       ,                                                                 "vasen" -> klubi))
+  asehuone .setNeighbors(Vector("ei minnekään" -> asehuone , "ylös" -> klubi,                            "alas" -> n2))
+  n2       .setNeighbors(Vector("ei minnekään" -> n2       , "ylös" -> asehuone,  "oikea" -> vault,                          "vasen" -> lab))
+  vault    .setNeighbors(Vector("ei minnekään" -> vault    ,                                                                 "vasen" -> n2))
 
 
   piha.addItem(Item("omena", "omena, äbbyl."))
@@ -82,9 +83,9 @@ class Adventure:
   aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
   lab.addItem(Item("crafting recipe", "jotai"))
 
-  klubi.addNpc(NPC("teemu teekkari", Buffer[String]("vedä viinaa")))
-  val player = Player(bunkkeri)
+  klubi.addNpc(NPC("Teemu Teekkari", Buffer[String]("Vedä viinaa!")))
   val zombi = Zombi(n3)
+  val player = Player(bunkkeri, zombi)
 
   /** The number of turns that have passed since the start of the game. */
   var turnCount = 0
@@ -96,7 +97,7 @@ class Adventure:
   def isComplete = (this.player.location == this.destination) && hasNeededItems
 
   /** Determines whether the player has won, lost, or quit, thereby ending the game. */
-  def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit || player.battle
+  def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit || this.player.onKuollut
 
   
   private def hasNeededItems: Boolean = (this.player.inventory.contains("omena") && this.player.inventory.contains("weakness potion") && this.player.inventory.contains("kultaharkko"))
@@ -115,8 +116,10 @@ class Adventure:
       "Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa"
     else if this.turnCount == this.timeLimit then
       "Käytit liian monta vuoroa.\n Game over!"
-    else  // game over due to player quitting
+    else if this.player.hasQuit then // game over due to player quitting
       "Luovuttaja!"
+    else
+      "Kuolit tappelussa zombin kanssa."
 
   def arduinopeli() : String =
     var komento = readLine("mikä komennolla määritetään digitaalinen pin 12 annoksi?")
@@ -134,5 +137,6 @@ class Adventure:
     if outcomeReport.isDefined then
       this.turnCount += 1
     outcomeReport.getOrElse(s"""Tuntematon komento: "$command".""")
+
 
 end Adventure
