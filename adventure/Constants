@@ -1,0 +1,5 @@
+package o1.adventure
+import o1.*
+import scala.util.Random
+
+val ShotRounds = Random.between(4, 21)
