@@ -20,10 +20,13 @@
   - player pystyy tarkistamaan, onko hän samassa huoneessa zombin kanssa, mutta mitään ei tapahdu(x)
   - pitää estää zombin pääsy kvanttiin( )
 - shottikisa-minipeli ( )
+  - Neljä korttia ? () 
   - NPC(x)
 - koodin kirjoitus vaultissa (x)
+  - korjaa errori jos syöttää tekstiä(x)
 - golden apple -crafting-minipeli ( )
 - voittoehto (kinda)
+  - Pitäiskö pelin oikeesti loppua sittenkin siihen että zombi parannetaan?
 - komentojen kääntäminen suomeksi (x)
 - lisäkomennot? ( )
   - help(x)
