@@ -125,33 +125,37 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
     * a description of the result: "You go DIRECTION." or "You can't go DIRECTION." */
   def go(direction: String): String =
     val destination = this.currentLocation.neighbor(direction)
-    if enemy.nextLocation.isDefined && (destination.head == enemy.nextLocation.head) then
-      var outcome = "Jouduit samaan huoneeseen zombin kanssa! Kiivaan tappelun seurauksena "
-      this.battle
-      if !this.onKuollut then
-        val sallitutSuunnat = this.currentLocation.validDirections
-        val satunnainenSuunta = sallitutSuunnat(Random.nextInt(sallitutSuunnat.size))
-        this.newLocation(destination.head.neighbor(satunnainenSuunta).getOrElse(this.currentLocation))
-        outcome +=  "selvisit. Pakenet nopeasti paikalta sattumanvaraiseen huoneeseen."
-        outcome
-      else
-        outcome += "kuolit."
-        outcome
-    else
-      if destination.getOrElse(this.currentLocation).name != "Holvi" then //holvin salaus systeemi
-        this.newLocation(destination.getOrElse(this.currentLocation)) // tämä toteutetaan jos kyseessä ei ole holvi
-        if destination.isDefined then
-          "Menet " + direction + "."
-        else "Ei ole mahdollista mennä suuntaan " + direction + "."
-      else
-        val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
-        if input.get == 2396 then // vaihda salasana haluamaasi
-          this.newLocation(destination.getOrElse(this.currentLocation)) // jos salasana oikein siirrytään huoneeseen
-          "Menet " + direction + "."
-        else // muuten pidetään tämä lokaatio
-          "Ei ole mahdollista mennä suuntaan " + direction + "."
-
-
+    destination match
+      case Some(n) =>
+        if enemy.nextLocation.isDefined && (destination.head == enemy.nextLocation.head) then
+          var outcome = "Jouduit samaan huoneeseen zombin kanssa! Kiivaan tappelun seurauksena "
+          this.battle
+          if !this.onKuollut then
+            val sallitutSuunnat = this.currentLocation.validDirections
+            val satunnainenSuunta = sallitutSuunnat(Random.nextInt(sallitutSuunnat.size))
+            this.newLocation(destination.head.neighbor(satunnainenSuunta).getOrElse(this.currentLocation))
+            outcome +=  "selvisit. Pakenet nopeasti paikalta sattumanvaraiseen huoneeseen."
+            outcome
+          else
+            outcome += "kuolit."
+            outcome
+        else
+          if destination.getOrElse(this.currentLocation).name != "Holvi" then //holvin salaus systeemi
+            this.newLocation(destination.getOrElse(this.currentLocation)) // tämä toteutetaan jos kyseessä ei ole holvi
+            if destination.isDefined then
+              "Menet " + direction + "."
+            else "Ei ole mahdollista mennä suuntaan " + direction + "."
+          else
+            val input = readLine("\n Anna salasana:\n").toIntOption // jos kyseessä on holvi
+            input match
+              case Some(n) =>
+                if n == 2396 then // vaihda salasana haluamaasi
+                  this.newLocation(destination.getOrElse(this.currentLocation)) // jos salasana oikein siirrytään huoneeseen
+                  "Menet " + direction + "."
+                else // muuten pidetään tämä lokaatio
+                  "Ei ole mahdollista mennä suuntaan " + direction + "."
+              case None => "Salasana ei ollut oikein. Jäit paikoillesi miettimään."
+      case _ => "Tätä suuntaa ei ole"
   def meetsZombie: Boolean = this.currentLocation.zombiIsHere
 
   def zombiLocation =

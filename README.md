@@ -4,7 +4,7 @@
 - itemit ( )
   - omena (x)
     - mahdollista syödä(x)
-  - weakness potion ( )
+  - weakness potion (x)
   - kulta (x)
   - skanneri (x)
     - komenon rajoittaminen vain silloin kun inventaariossa on skanneri(x)
@@ -22,7 +22,6 @@
   - player pystyy tarkistamaan, onko hän samassa huoneessa zombin kanssa, mutta mitään ei tapahdu(x)
   - pitää estää zombin pääsy kvanttiin( )
 - shottikisa-minipeli ( )
-  - Neljä korttia ? () 
   - NPC(x)
   - aloitettu. Jos on klubissa ja kirjoittaa komennon "pelaa", peli alkaa, mutta komento "juo" puuttuu. Pelissä "Constants" tiedosto, jonne peli arpoo kyseisen pelikerran voittoon vaadittavan kierrosmäärän (4-20)
 - koodin kirjoitus vaultissa (x)
@@ -36,6 +35,8 @@
   - "mene ei minnekään" antaa pelaajan jäädä huoneeseen. zombin pitää aina liikkua uuteen huoneeseen (x)
 - tekstien lisääminen ( )
 - arduino minipeli(x)
+- korhjaa suunta errori(x)
+
 
 # muuta
 
