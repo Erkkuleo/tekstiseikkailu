@@ -2,6 +2,8 @@ package o1.adventure
 
 import scala.collection.mutable.*
 import o1.*
+import smcl.colors.rgb.ColorComponents.Opacity
+
 import scala.util.Random
 
 class Zombi(startingArea : Area) extends Character(startingArea):
@@ -14,13 +16,21 @@ class Zombi(startingArea : Area) extends Character(startingArea):
     this.currentLocation.zombiLeaves()
     this.newLocation(destinationNextRound.getOrElse(this.currentLocation))
     this.currentLocation.zombiMovesHere() // liikkuu ennalta valittuun suuntaan
-    
+
+    var onValinnutValidinSuunnan = false
     var possibleDirections = Buffer[String]() // valitsee suunnan, johon liikkuu seuraavalla kierroksella
     for i <- this.suunnat do
       if this.currentLocation.neighbor(i).isDefined then
         possibleDirections += i
     val possibleDirSize = possibleDirections.size
-    val newRandomDirection = possibleDirections(Random.nextInt(possibleDirSize))
+    var newRandomDirection = possibleDirections(Random.nextInt(possibleDirSize))
+
+    while !onValinnutValidinSuunnan do // tarkistetaan, ettei suunta ole kvantti tai holvi
+      val potentialDestination = this.currentLocation.neighbor(newRandomDirection)
+      if potentialDestination == Some("Kvantti") || potentialDestination == Some("Holvi") then
+        newRandomDirection = possibleDirections(Random.nextInt(possibleDirSize))
+      else
+        onValinnutValidinSuunnan = true
     destinationNextRound = this.currentLocation.neighbor(newRandomDirection)
     
     "Zombi menee: " + this.currentLocation.name

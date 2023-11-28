@@ -18,7 +18,7 @@ class Adventure:
 
   private val bunkkeri  = Area("Bunkkeri", "Olet bunkkerissa.")
   private val aula      = Area("Aula", "Aulasta pääsee moneen suuntaan.")
-  private val piha      = Area("Piha", "Pihalla on paljon omenapuita.")
+  private val piha      = Area("Piha", "Pihalla on paljon omenapuita ja herkullisen näköistä raikasta vettä.")
   private val kaytava   = Area("Käytävä", "Käytävän seinillä on paljon tekstiä.")
   private val lab       = Area("Laboratorio", "Laboratoriossa on kaikenlaisia leluja.")
   private val n1        = Area("Null 1", "Tällä ei ole mitään.")
@@ -47,7 +47,6 @@ class Adventure:
 
 
   piha.addItem(Item("omena", "omena, äbbyl."))
-  klubi.addItem(Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta."))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
   tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
   asehuone.addItem(Item("ase", "tekee ase asioita"))

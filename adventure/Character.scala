@@ -5,6 +5,7 @@ import o1.*
 trait Character(startingArea: Area):
 
   private val liikkumissuunnat = Vector[String]("ylös", "oikea", "alas", "vasen")
+  //character-traitilla ei ole "ei minnekään"-suuntaa, jotta zombin on pakko liikkua joka kierroksella.
 
   private var characterCurrentLocation = startingArea
 

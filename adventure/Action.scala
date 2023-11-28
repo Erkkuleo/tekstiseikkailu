@@ -26,7 +26,9 @@ class Action(input: String):
     case "juttele"        => Some(actor.juttele(this.modifiers))
     case "skanneri"       => Some(actor.zombiLocation)
     case "syö"            => Some(actor.syö(this.modifiers))
-    case "pelaa"          => Some(actor.pelaa)
+    case "pelaa"          => Some(actor.pelaa())
+    case "shotti"         => Some(actor.shotti())
+    case "juo"            => Some(actor.juo())
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */
