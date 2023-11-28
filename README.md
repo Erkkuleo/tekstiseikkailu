@@ -44,3 +44,4 @@
 
 - Yritin luoda metodeita arealle, jotka pitäisivät kirjaa hahmoista, jotka ovat siellä, mutta se ei toiminut. Siellä nyt edelleen zombiIsHere ja muut. Tätä varten lisäsin "Character"-traitin, johon player ja zombi kuuluvat. Tällä hetkellä se on vähän turha, mutta ei siitä varsinaisesti haittaa ole. Huomaa uudet metodit traitissa.
 - Playerilla "enemy" muuttuja, jonka kautta voi tutkia zombin asioita.
+- poistettu "Constants" tiedosto koska se ei toiminut kunnolla xd
