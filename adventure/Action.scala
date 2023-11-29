@@ -15,7 +15,7 @@ class Action(input: String):
     * of the action (such as “You go west.”). The description is returned in an `Option`
     * wrapper; if the command was not recognized, `None` is returned. */
   def execute(actor: Player, zombie: Zombi) = this.verb match
-    case "mene"           => Some(actor.go(this.modifiers) + " " + zombie.zombiGo())
+    case "mene"           => Some(actor.go(this.modifiers)) //+ " " + zombie.zombiGo())
     case "lopeta"         => Some(actor.quit())
     case "poimi"          => Some(actor.get(this.modifiers))
     case "tiputa"         => Some(actor.drop(this.modifiers))
@@ -26,7 +26,11 @@ class Action(input: String):
     case "juttele"        => Some(actor.juttele(this.modifiers))
     case "skanneri"       => Some(actor.zombiLocation)
     case "syö"            => Some(actor.syö(this.modifiers))
-    case "pelaa"          => Some(actor.pelaa)
+    case "pelaa"          => Some(actor.pelaa())
+    case "shotti"         => Some(actor.shotti())
+    case "juo"            => Some(actor.juo())
+    //case "assarimode"     => Some(actor.assariMode)
+    case "kräftää"          => Some(actor.craftGoldenApple)
     case other            => None
 
   /** Returns a textual description of the action object, for debugging purposes. */

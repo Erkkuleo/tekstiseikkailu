@@ -17,7 +17,7 @@ class Area(var name: String, var description: String):
 
   private val npc = Map[String, NPC]()
   
-  private val suunnat = Buffer[String]("ylös", "oikea", "alas", "vasen")
+  private val suunnat = Buffer[String]("ylös", "oikea", "alas", "vasen", "ei minnekään")
 
   var zombiIsHere : Boolean = false
 
