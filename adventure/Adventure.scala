@@ -14,12 +14,12 @@ import scala.util.Random
 class Adventure:
 
   /** the name of the game */
-  val title = "mörtin zonbipeli"
+  val title = "Mörtin zombipeli"
 
   private val bunkkeri  = Area("Bunkkeri", "Olet bunkkerissa.")
   private val aula      = Area("Aula", "Aulasta pääsee moneen suuntaan.")
   private val piha      = Area("Piha", "Pihalla on paljon omenapuita ja herkullisen näköistä raikasta vettä.")
-  private val kaytava   = Area("Käytävä", "Käytävän seinillä on paljon tekstiä.")
+  private val kaytava   = Area("Käytävä", "Käytävän seinillä on paljon lappuja ja ilmoituksia. Erääseen papereista on kirjoitettu numerosarja 2396.")
   private val lab       = Area("Laboratorio", "Laboratoriossa on kaikenlaisia leluja.")
   private val n1        = Area("Null 1", "Tällä ei ole mitään.")
   private val klubi     = Area("Klubi", "Klubin pöydän ääressä istuu joku.")
@@ -80,7 +80,7 @@ class Adventure:
 
   kvantti.addItem(Item("oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
   aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
-  lab.addItem(Item("crafting recipe", "jotai"))
+  lab.addItem(Item("lääkkeen resepti", "Valmistaaksesi zombinparannuslääkkeen, tarvitset omenan, kultaharkon ja weakness potionin."))
 
   klubi.addNpc(NPC("Teemu Teekkari", Buffer[String]("Vedä viinaa!")))
   val zombi = Zombi(n3)
@@ -102,7 +102,7 @@ class Adventure:
   private def hasNeededItems: Boolean = (this.player.inventory.contains("omena") && this.player.inventory.contains("weakness potion") && this.player.inventory.contains("kultaharkko"))
 
   /** Returns a message that is to be displayed to the player at the beginning of the game. */
-  def welcomeMessage = "Heräät harmaasta bunkkerista. Päähäsi sattuu, etkä ole varma mitä on tapahtunut."
+  def welcomeMessage = "Heräät erään tiedemiehen pelottavan kartanon harmaasta bunkkerista.\nKarmivassa kartanossa tiedemies on tutkinut erilaisten virusten \nvaikutusta ihmiskehoon ja vahingossa onnistunut luomaan zombiviruksen!\nTuo virus on valitettavasti tarttunut johonkuhun kartanossa, ja viruksen\nleviäminen tulee estää kaikilla mahdollisilla keinoilla, tai ihmiskunta tulee\ntuhoutumaan.\n\nTavoitteenasi on siis liikkua kartanon sisällä, valmistaa lääkeaine zombivirusta\nvastaan ja pelastaa ihmiskunta."
 
 
   /** Returns a message that is to be displayed to the player at the end of the game. The message
