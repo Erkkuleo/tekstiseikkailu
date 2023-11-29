@@ -46,7 +46,7 @@ class Adventure:
   vault    .setNeighbors(Vector("ei minnekään" -> vault    ,                                                                 "vasen" -> n2))
 
 
-  piha.addItem(Item("omena", "omena, äbbyl."))
+  piha.addItem(Item("omena", "omena, äbbyl. Syö minut, SYÖ MINUT !!!"))
   vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
   tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
   asehuone.addItem(Item("ase", "tekee ase asioita"))
@@ -80,8 +80,8 @@ class Adventure:
 
   kvantti.addItem(Item("oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
   aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
+  kaytava.addItem(Item("note", "2396"))
   lab.addItem(Item("lääkkeen resepti", "Valmistaaksesi zombinparannuslääkkeen, tarvitset omenan, kultaharkon ja weakness potionin."))
-
   klubi.addNpc(NPC("Teemu Teekkari", Buffer[String]("Vedä viinaa!")))
   val zombi = Zombi(n3)
   val player = Player(bunkkeri, zombi)
@@ -93,7 +93,7 @@ class Adventure:
 
 
   /** Determines if the adventure is complete, that is, if the player has won. */
-  def isComplete = (this.player.location == this.destination) && hasNeededItems
+  def isComplete = player.hasWon//(this.player.location == this.destination) && hasNeededItems
 
   /** Determines whether the player has won, lost, or quit, thereby ending the game. */
   def isOver = this.isComplete || this.player.hasQuit || this.turnCount == this.timeLimit || this.player.onKuollut
@@ -109,10 +109,10 @@ class Adventure:
     * will be different depending on whether or not the player has completed their quest. */
   def goodbyeMessage =
     if this.player.inventory.contains("arduino") && this.isComplete then
-       println("Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Pääset nyt leikkimään arduinolla")
+       println("Sait lääkkeen valmistettua sekä zombin parannettua. maailma pelastui, hurraa! Pääset nyt leikkimään arduinolla") //voitit, niin että sinulla oli arduino
        arduinopeli()
     else if this.isComplete then
-      "Sait lääkkeen valmistettua ja maailma pelastui. Hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa"
+      "Sait lääkkeen valmistettua sekä zombin parannettua. maailma pelastui, hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa" // voitit ilman arduino
     else if this.turnCount == this.timeLimit then
       "Käytit liian monta vuoroa.\n Game over!"
     else if this.player.hasQuit then // game over due to player quitting
@@ -125,7 +125,10 @@ class Adventure:
     komento match
       case "pinMode(12, OUTPUT);" => "oikein! hyvä :)"
       case "pinMode(12,OUTPUT);" => "oikein! hyvä :)"
-      case _ => "väärin" + arduinopeli()
+      case _ =>
+        println("väärin meni kokeillaanpa uudelleen:")
+        arduinopeli()
+
 
   /** Plays a turn by executing the given in-game Yo, such as “go west”. Returns a textual
     * report of what happened, or an error message if the command was unknown. In the latter

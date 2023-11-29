@@ -25,6 +25,8 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
   private var shotRounds = 0
   private var sammumisenTn = 10
 
+  var hasWon : Boolean = false
+
   def get(itemname: String) =
     if this.currentLocation.contains(itemname) then
       val removedItem = this.currentLocation.removeItem(itemname)
@@ -82,7 +84,6 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
           "ei kestänyt enää n + 1 juomaa ja on tuupertunut lattialle. Palkinnoksi suorituksestasi saat loput Weakness potionista, jos enää niitä haluat."
     else
       s"Juomapeli täytyy aloittaa \"pelaa\"-komennolla ennen kuin sitä voi pelata. Pelin voi pelata ainoastaan kerran."
-
 
   def pelaa() =
     if this.currentLocation.name != "Klubi" then
@@ -162,13 +163,17 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
     val destination = this.currentLocation.neighbor(direction)
     destination match
       case Some(validDestination) =>
-        if enemy.nextLocation.isDefined && (validDestination == enemy.nextLocation.head) then
+        if enemy.nextLocation.isDefined && (validDestination == enemy.nextLocation.head) && playerInventory.contains("golden apple") then
+          hasWon = true
+          ""
+        else if enemy.nextLocation.isDefined && (validDestination == enemy.nextLocation.head) then
           var outcome = "Jouduit samaan huoneeseen zombin kanssa! Kiivaan tappelun seurauksena "
           this.battle
           if !this.onKuollut then
             val sallitutSuunnat = this.currentLocation.validDirections
             val satunnainenSuunta = sallitutSuunnat(Random.nextInt(sallitutSuunnat.size))
             this.newLocation(validDestination.neighbor(satunnainenSuunta).getOrElse(this.currentLocation))
+            enemy.zombiGo()
             outcome +=  "selvisit. Pakenet nopeasti paikalta sattumanvaraiseen huoneeseen."
             outcome
           else
@@ -177,6 +182,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
         else
           if validDestination.name != "Holvi" then //holvin salaus systeemi
             this.newLocation(validDestination) // tämä toteutetaan jos kyseessä ei ole holvi
+            enemy.zombiGo()
             "Menet " + direction + "."
           else
             val input = readLine("\nAnna salasana:\n").toIntOption // jos kyseessä on holvi
@@ -184,14 +190,16 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
               case Some(number) =>
                 if number == 2396 then // vaihda salasana haluamaasi
                   this.newLocation(validDestination) // jos salasana oikein siirrytään huoneeseen
+                  enemy.zombiGo()
                   "Salasana oli oikein.\nMenet " + direction + "."
                 else
+                  enemy.zombiGo()
                   "Salasana oli väärä, etkä päässyt holviin sisään." // muuten pidetään tämä lokaatio
               case None =>
+                enemy.zombiGo()
                 "Salasana oli väärä, etkä päässyt holviin sisään."
       case None =>
         "Ei ole mahdollista mennä suuntaan " + direction + "."
-
   def meetsZombie: Boolean = this.currentLocation.zombiIsHere
 
   def zombiLocation =
@@ -217,6 +225,18 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       if r < 50 then
         this.kuollut = true
 
+  def craftGoldenApple =
+    if this.inventory.contains("omena") && this.inventory.contains("kultaharkko") && this.inventory.contains("weakness potion") && this.location.name == "Laboratorio" then
+      this.playerInventory += "golden apple" -> Item("golden apple", "kultainen omena, jolla voi parantaa zombin")
+      this.playerInventory.remove("omena")
+      this.playerInventory.remove("weakness potion")
+      this.playerInventory.remove("kultaharkko")
+      "sait valmistettua kultaisen omenan!"
+    else if this.location.name != "Laboratorio" then
+      "mene laboratorioon, jotta voit valmistaa reseptin"
+    else
+      "sinulla ei ole tarvittavia tarvikkeita"
+
   def help : String =
     "Tässä kaikki komennot:\n" +
       s"${Console.GREEN} help ${Console.RESET}- Tulostaa tämän tekstin.\n" +
@@ -230,7 +250,8 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       s"${Console.GREEN} pelaa ${Console.RESET}- Aloita juomapelin pelaaminen tällä komennolla. Toimii ainoastaan Klubissa. \n " +
       s"${Console.GREEN} skanneri ${Console.RESET}- Käytä skanneria, jos sinulla on skanneri. \n" +
       s"${Console.GREEN} shotti ${Console.RESET}- Kun olet Klubissa ja juomapeli on aloitettu, voit pelata kierroksen juomapeliä tällä komennolla. \n" +
-      s"${Console.GREEN} juo ${Console.RESET}- Jos häviät juomapelin, täytyy käydä pihalla juomassa välivesi ennen kuin sinulla on mahdollisuus voittaa peli. \n"
+      s"${Console.GREEN} juo ${Console.RESET}- Jos häviät juomapelin, täytyy käydä pihalla juomassa välivesi ennen kuin sinulla on mahdollisuus voittaa peli. \n" +
+      s"${Console.GREEN} kräftää ${Console.RESET}- Valmistaa asioita, kun sinulla on tarvittavat esineet. \n"
 
   /** Signals that the player wants to quit the game. Returns a description of what happened within
     * the game as a result (which is the empty string, in this case). */

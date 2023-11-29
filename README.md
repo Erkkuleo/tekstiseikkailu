@@ -76,16 +76,14 @@ Pelin läpäisemiseksi seuraa seuraavia vaiheita:
     - komenon rajoittaminen vain silloin kun inventaariossa on skanneri(x)
     - skanneri ei ole tällä hetkellä kovin hyödyllinen, koska se kertoo missä zombi on nyt, eikä minne zombi on menossa. Jos siis skannaat huoneen, zombi saattaa silti mennä sinne.
     - zombin liikkumista muutettu niin, että zombilla on ennalta määritelty suunta, johon se liikkuu ja joka arvotaan liikkumisen jälkeen uudestaan.
-      - arvotun suunnan pitäisi olla eri kuin suunta mihin zombi menee ( )
+      - arvotun suunnan pitäisi olla eri kuin suunta mihin zombi menee (x)
       - tappelu myös silloin, jos pelaaja ja zombi kohtaavat "huoneiden välissä" (esim. jos pelaaja menee aulasta pihalle ja zombi pihalta aulaan, tappelu tapahtuu myös silloin.)
   - ase (x)
     - tn kuolla 50% ilman asetta, aseen kanssa 10%
   - arduino (x)
   - map-item (x)
   - recipe (x)
-    - ei tee mitään mutta on ohje pelaajalle
-- zombi ( )
-  - zombi liikkuu (X)
+zombi liikkuu (X)
   - zombin kanssa tappeleminen (X)
     - muutettu niin, että battle tulee vain, jos pelaaja olisi menossa samaan ruutuun mihin zombi on menossa. Jos battle epäonnistuu, pelaajan "kuollut" muuttujasta tulee "true" ja peli päättyy.
     - arpoo luvun 0-99, jos 49 tai alle niin pelaaja kuolee. Muuten pelaaja siirtyy huoneesta random suuntaan.
@@ -96,16 +94,19 @@ Pelin läpäisemiseksi seuraa seuraavia vaiheita:
   - aloitettu. Jos on klubissa ja kirjoittaa komennon "pelaa", peli alkaa, mutta komento "juo" puuttuu. Pelissä "Constants" tiedosto, jonne peli arpoo kyseisen pelikerran voittoon vaadittavan kierrosmäärän (4-20)
   - kierrosmäärä on 3-6, koska "juo" komennon spämmääminen ei ole mielekästä gameplayta :D joka kierroksella tn sammua kasvaa satunnaisen määrän 0-20 %-yksikköä. jos häviää, pitää käydä pihalla juomassa vettä ja aloittaa shottikisa uudestaan.
 - koodin kirjoitus vaultissa (x)
+  - korjaa errori jos syöttää tekstiä(x)
 - golden apple -crafting-minipeli ( )
 - voittoehto (kinda)
+  - Pitäiskö pelin oikeesti loppua sittenkin siihen että zombi parannetaan?
 - komentojen kääntäminen suomeksi (x)
-- lisäkomennot? ( )
+- lisäkomennot? ( ) 
+  - assarimode( )
   - help(x)
   - juo(x) jos häviää shottikisan, pitää käydä juomassa vettä
   - "mene ei minnekään" antaa pelaajan jäädä huoneeseen. zombin pitää aina liikkua uuteen huoneeseen (x)
 - tekstien lisääminen ( )
-- arduino minipeli( )
-  - arduino-peli tulostaa "oikein" tai "väärin" vasta kun pelaaja kirjoittaa vastauksen oikein. esim. jos kirjoittaa kahdesti väärän vastauksen ja sitten oikean, peli tulostaa "väärinväärinoikein!"
+- arduino minipeli(x)
+  - arduino-peli tulostaa "oikein" tai "väärin" vasta kun pelaaja kirjoittaa vastauksen oikein. esim. jos kirjoittaa kahdesti väärän vastauksen ja sitten oikean, peli tulostaa "väärinväärinoikein!"(x)
 
 # muuta
 
