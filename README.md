@@ -45,7 +45,7 @@ Pelin läpäisemiseksi seuraa seuraavia vaiheita:
 - Pelissä tulee liikkua huoneiden välillä ja samalla varoa, ettet kulje samaan huoneeseen zombin
   kanssa. Jos saavut samaan huoneeseen, seuraa tappelu ja todennäköisyytesi kuolla on 50%. Peli päättyy kuolemiseen.
   Jos selviät, siirryt huoneesta, jossa tappelu tapahtui, johonkin satunnaisesti valittuun suuntaan.
-- Asehuoneessa on mahdollista poimia ase. Jos joudut tappeluun niin, että ase on tavaraluettelossasi, 
+- Asevarastossa on mahdollista poimia ase. Jos joudut tappeluun niin, että ase on tavaraluettelossasi, 
   todennäköisyytesi kuolla on vain 10%.
 - Tekniikkahuoneessa voit poimia itsellesi skannerin, joka kertoo, jos zombi tulee olemaan jossakin viereisistä
   huoneista seuraavalla kierroksella.

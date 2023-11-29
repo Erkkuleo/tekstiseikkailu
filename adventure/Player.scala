@@ -132,7 +132,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       "                     #                             #                     \n" +
       "#############  #############  #############  #############  #############\n" +
       "#           #  #           #  #           #  #           #  #           #\n" +
-      "#  BUNKKERI ####  AULA     #### NULL      ####  KLUBI    #### NULL      #\n" +
+      "#  BUNKKERI ####  AULA     #### TYÖHUONE  ####  KLUBI    #### MAKUUHUONE#\n" +
       "#           #  #           #  #           #  #           #  #           #\n" +
       "#############  #############  #############  #############  #############\n" +
       "                     #                             #                     \n" +
@@ -146,7 +146,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       "                     #                             #                     \n" +
       "               #############                 #############  #############\n" +
       "               #           #                 #           #  #           #\n" +
-      "               #LABORATORIO###################  NULL     #### HOLVI     #\n" +
+      "               #LABORATORIO###################  KEITTIÖ  #### HOLVI     #\n" +
       "               #           #                 #           #  #           #\n" +
       "               #############                 #############  #############\n"
     else

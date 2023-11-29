@@ -21,13 +21,13 @@ class Adventure:
   private val piha      = Area("Piha", "Pihalla on paljon omenapuita ja herkullisen näköistä raikasta vettä.")
   private val kaytava   = Area("Käytävä", "Käytävän seinillä on paljon lappuja ja ilmoituksia. Erääseen papereista on kirjoitettu numerosarja 2396.")
   private val lab       = Area("Laboratorio", "Laboratoriossa on kaikenlaisia leluja.")
-  private val n1        = Area("Null 1", "Tällä ei ole mitään.")
+  private val n1        = Area("Työhuone", "Mahonkisella työpöydällä on paljon tärkeän näköisiä asiakirjoja.")
   private val klubi     = Area("Klubi", "Klubin pöydän ääressä istuu joku.")
   private val tekniikka = Area("Tekniikkahuone", "Täällä on paljon laitteita.")
   private val kvantti   = Area("Kvantti", "Tämä on universumin keskus.")
-  private val n3        = Area("Null 3", "Zombi aloittaa tästä huoneesta.")
-  private val asehuone  = Area("Asehuone", "Pum pum")
-  private val n2        = Area("Null 2", "Täälläkään ei ole mitään.")
+  private val n3        = Area("Makuuhuone", "Huoneen lattialla on verta ja revenneitä vaatekappaleita. Joku on varmaankin muuttunut täällä zombiksi.")
+  private val asehuone  = Area("Asevarasto", "Pum pum")
+  private val n2        = Area("Keittiö", "Keittiössä tuoksuu hyvältä, mutta nyt ei ole aikaa jäädä nautiskelemaan.")
   private val vault     = Area("Holvi", "Kultaharkot kimaltavat, partavesi tuoksuu.")
   private val destination = lab
 
