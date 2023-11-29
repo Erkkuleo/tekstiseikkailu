@@ -35,8 +35,6 @@ class Zombi(startingArea : Area) extends Character(startingArea):
         onValinnutValidinSuunnan = true
     destinationNextRound = this.currentLocation.neighbor(newRandomDirection)
 
-    println("Zombi menee: " + this.currentLocation.name)
-
   def nextLocation = this.destinationNextRound
 
   /** Palauttaa zombin sijainnin */

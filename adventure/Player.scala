@@ -78,7 +78,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
           else
               this.kierroksiaPelattu += 1
               this.sammumisenTn += Random.nextInt(21)
-              s"Juot shotin. Maistuu ihan hirveältä, mutta lämmittää mukavasti vatsassa ${this.kierroksiaPelattu}/${this.shotRounds}."
+              s"Juot shotin. Maistuu ihan hirveältä, mutta lämmittää mukavasti vatsassa."
       else
         val weaknessPotion = Item("weakness potion", "Minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta.")
         juomapeliLopetettu = true
@@ -119,8 +119,8 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
   def juttele(NPC: String): String =
     val npc = this.location.getNpc.get(NPC)
     npc match
-      case None    => s"${this.location} ${this.location.getNpc.foreach((n,m) => n)}Täällä ei ole ketään, kenen kanssa jutella."
-      case Some(n) => s"${n.name}: ${n.liners.head}"
+      case None    => s"Täällä ei ole ketään, kenen kanssa jutella."
+      case Some(n) => s"${n.name}: ${n.liners}"
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -234,7 +234,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       this.playerInventory.remove("omena")
       this.playerInventory.remove("weakness potion")
       this.playerInventory.remove("kultaharkko")
-      "Sait valmistettua kultaisen omenan!"
+      "Sait valmistettua golden applen! Tällä voit parantaa zombin."
     else if this.location.name != "Laboratorio" then
       "Mene laboratorioon, jotta voit valmistaa asioita."
     else
@@ -246,6 +246,8 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
       s"${Console.GREEN} mene [suunta] ${Console.RESET}- Liiku tässä suunnassa olevaan huoneeseen.\n" +
       s"${Console.GREEN} poimi [esine] ${Console.RESET}- Poimi huoneesta löytyvä esine.\n" +
       s"${Console.GREEN} tiputa [esine] ${Console.RESET}- Tiputa tavaraluettelossasi ollut esine.\n" +
+      s"${Console.GREEN} lopeta ${Console.RESET}- Lopeta peli.\n" +
+      s"${Console.GREEN} tutkti [esine] ${Console.RESET}- Tutki esinettä. Esineet sisältävät paljon hyödyllistä tietoa.\n" +
       s"${Console.GREEN} tavaraluettelo ${Console.RESET}- Listaa tavaraluettelostasi löytyvät esineet.\n" +
       s"${Console.GREEN} kartta ${Console.RESET}- Tulostaa alueen kartan mikäli sinulla on sellainen.\n" +
       s"${Console.GREEN} syö ${Console.RESET}- Voit syödä omenan. Syö omena :) SYÖ OMENA!  \n" +

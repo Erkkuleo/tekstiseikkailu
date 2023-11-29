@@ -82,7 +82,7 @@ class Adventure:
   aula.addItem(Item("kartta", "Kertoo missä paikat ovat."))
   kaytava.addItem(Item("paperi", "2396"))
   lab.addItem(Item("lääkkeen resepti", "Valmistaaksesi zombinparannuslääkkeen, tarvitset omenan, kultaharkon ja weakness potionin."))
-  klubi.addNpc(NPC("Teemu Teekkari", "Vedä viinaa! Pelataanko juomapeliä?"))
+  klubi.addNpc(NPC("teemu teekkari", "Vedä viinaa! Pelataanko juomapeliä?"))
   val zombi = Zombi(n3)
   val player = Player(bunkkeri, zombi)
 
@@ -102,7 +102,7 @@ class Adventure:
   private def hasNeededItems: Boolean = (this.player.inventory.contains("omena") && this.player.inventory.contains("weakness potion") && this.player.inventory.contains("kultaharkko"))
 
   /** Returns a message that is to be displayed to the player at the beginning of the game. */
-  def welcomeMessage = "Heräät erään tiedemiehen pelottavan kartanon harmaasta bunkkerista.\nKarmivassa kartanossa tiedemies on tutkinut erilaisten virusten \nvaikutusta ihmiskehoon ja vahingossa onnistunut luomaan zombiviruksen!\nTuo virus on valitettavasti tarttunut johonkuhun kartanossa, ja viruksen\nleviäminen tulee estää kaikilla mahdollisilla keinoilla, tai ihmiskunta tulee\ntuhoutumaan.\n\nTavoitteenasi on siis liikkua kartanon sisällä, valmistaa lääkeaine zombivirusta\nvastaan ja pelastaa ihmiskunta."
+  def welcomeMessage = "Heräät erään tiedemiehen pelottavan kartanon harmaasta bunkkerista.\nKarmivassa kartanossa tiedemies on tutkinut erilaisten virusten \nvaikutusta ihmiskehoon ja vahingossa onnistunut luomaan zombiviruksen!\nTuo virus on valitettavasti tarttunut johonkuhun kartanossa, ja viruksen\nleviäminen tulee estää kaikilla mahdollisilla keinoilla, tai ihmiskunta tulee\ntuhoutumaan.\n\nTavoitteenasi on siis liikkua kartanon sisällä, valmistaa lääkeaine zombivirusta\nvastaan ja pelastaa ihmiskunta.\nKannattaa ehkä aloittaa tutkimalla laboratoriota..."
 
 
   /** Returns a message that is to be displayed to the player at the end of the game. The message

@@ -18,8 +18,11 @@ vastaan ja pelastaa ihmiskunta.
 
 Peliä pelataan kirjoittamalla komentoja suomeksi. Listan kaikista komennoista saa
 pelin aikana näkyviin kirjoittamalla komennon "help" tai tästä ohjeesta.
+Kaikki tarvittava tieto pelin läpäisemiseen pitäisi olla löydettävissä peliä pelaamalla.
 - mene (suunta) - Liiku tässä suunnassa olevaan huoneeseen, jos sinne on mahdollista mennä. 
   Jos haluat pysyä samassa ruudussa, kirjoita suunnaksi "ei minnekään".
+- tutki (esine) - Tutki esineitä, jotka sinulla on tavaraluettelossasi.
+- lopeta - Lopeta peli.
 - poimi (esine) - Ota huoneesta löytyvä esine.
 - tiputa (esine) - Tiputa sinulla oleva esine.
 - tavaraluettelo - Listaus sinulla olevista esineistä.
@@ -46,7 +49,7 @@ Pelin läpäisemiseksi seuraa seuraavia vaiheita:
   kanssa. Jos saavut samaan huoneeseen, seuraa tappelu ja todennäköisyytesi kuolla on 50%. Peli päättyy kuolemiseen.
   Jos selviät, siirryt huoneesta, jossa tappelu tapahtui, johonkin satunnaisesti valittuun suuntaan.
 - Asevarastossa on mahdollista poimia ase. Jos joudut tappeluun niin, että ase on tavaraluettelossasi, 
-  todennäköisyytesi kuolla on vain 10%.
+  todennäköisyytesi kuolla on vain 10%. Zombia ei kuitenkaan edes aseella voi tappaa.
 - Tekniikkahuoneessa voit poimia itsellesi skannerin, joka kertoo, jos zombi tulee olemaan jossakin viereisistä
   huoneista seuraavalla kierroksella.
 - Omenan voi hakea pihalta poimimalla. Älä syö omenaa, se poistaa omenan pelistä, eikä sitä
@@ -64,52 +67,3 @@ Pelin läpäisemiseksi seuraa seuraavia vaiheita:
   voitat pelin.
 - Pelissä on myös eräs salainen huone, kvantti, jossa käyminen ei ole pelin läpäisemisen kannalta välttämätöntä. 
   Sieltä kuitenkin voi poimia muutamia salaisia esineitä...
-
-# todo
-- mappi (X)
-- itemit (x)
-  - omena (x)
-    - mahdollista syödä(x)
-  - weakness potion (x)
-  - kulta (x)
-  - skanneri (x)
-    - komenon rajoittaminen vain silloin kun inventaariossa on skanneri(x)
-    - skanneri ei ole tällä hetkellä kovin hyödyllinen, koska se kertoo missä zombi on nyt, eikä minne zombi on menossa. Jos siis skannaat huoneen, zombi saattaa silti mennä sinne.
-    - zombin liikkumista muutettu niin, että zombilla on ennalta määritelty suunta, johon se liikkuu ja joka arvotaan liikkumisen jälkeen uudestaan.
-      - arvotun suunnan pitäisi olla eri kuin suunta mihin zombi menee (x)
-      - tappelu myös silloin, jos pelaaja ja zombi kohtaavat "huoneiden välissä" (esim. jos pelaaja menee aulasta pihalle ja zombi pihalta aulaan, tappelu tapahtuu myös silloin.)
-  - ase (x)
-    - tn kuolla 50% ilman asetta, aseen kanssa 10%
-  - arduino (x)
-  - map-item (x)
-  - recipe (x)
-zombi liikkuu (X)
-  - zombin kanssa tappeleminen (X)
-    - muutettu niin, että battle tulee vain, jos pelaaja olisi menossa samaan ruutuun mihin zombi on menossa. Jos battle epäonnistuu, pelaajan "kuollut" muuttujasta tulee "true" ja peli päättyy.
-    - arpoo luvun 0-99, jos 49 tai alle niin pelaaja kuolee. Muuten pelaaja siirtyy huoneesta random suuntaan.
-  - player pystyy tarkistamaan, onko hän samassa huoneessa zombin kanssa, mutta mitään ei tapahdu(x)
-  - pitää estää zombin pääsy kvanttiin(x) luultavasti, mutta en sano 100%
-- shottikisa-minipeli (x)
-  - NPC(x)
-  - aloitettu. Jos on klubissa ja kirjoittaa komennon "pelaa", peli alkaa, mutta komento "juo" puuttuu. Pelissä "Constants" tiedosto, jonne peli arpoo kyseisen pelikerran voittoon vaadittavan kierrosmäärän (4-20)
-  - kierrosmäärä on 3-6, koska "juo" komennon spämmääminen ei ole mielekästä gameplayta :D joka kierroksella tn sammua kasvaa satunnaisen määrän 0-20 %-yksikköä. jos häviää, pitää käydä pihalla juomassa vettä ja aloittaa shottikisa uudestaan.
-- koodin kirjoitus vaultissa (x)
-  - korjaa errori jos syöttää tekstiä(x)
-- golden apple -crafting-minipeli (x)
-- voittoehto (kinda)
-  - Pitäiskö pelin oikeesti loppua sittenkin siihen että zombi parannetaan?
-- komentojen kääntäminen suomeksi (x)
-- lisäkomennot? (x) 
-  - assarimode( )
-  - help(x)
-  - juo(x) jos häviää shottikisan, pitää käydä juomassa vettä
-  - "mene ei minnekään" antaa pelaajan jäädä huoneeseen. zombin pitää aina liikkua uuteen huoneeseen (x)
-- tekstien lisääminen ( )
-- arduino minipeli(x)
-  - arduino-peli tulostaa "oikein" tai "väärin" vasta kun pelaaja kirjoittaa vastauksen oikein. esim. jos kirjoittaa kahdesti väärän vastauksen ja sitten oikean, peli tulostaa "väärinväärinoikein!"(x)
-
-# muuta
-
-- Yritin luoda metodeita arealle, jotka pitäisivät kirjaa hahmoista, jotka ovat siellä, mutta se ei toiminut. Siellä nyt edelleen zombiIsHere ja muut. Tätä varten lisäsin "Character"-traitin, johon player ja zombi kuuluvat. Tällä hetkellä se on vähän turha, mutta ei siitä varsinaisesti haittaa ole. Huomaa uudet metodit traitissa.
-- Playerilla "enemy" muuttuja, jonka kautta voi tutkia zombin asioita.
-- poistettu "Constants" tiedosto koska se ei toiminut kunnolla xd
