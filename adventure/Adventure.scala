@@ -46,10 +46,10 @@ class Adventure:
   vault    .setNeighbors(Vector("ei minnekään" -> vault    ,                                                                 "vasen" -> n2))
 
 
-  piha.addItem(Item("omena", "omena, äbbyl. Syö minut, SYÖ MINUT !!!"))
-  vault.addItem(Item("kultaharkko", "painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
+  piha.addItem(Item("omena", "Omena, äbbyl. Syö minut, SYÖ MINUT !!!"))
+  vault.addItem(Item("kultaharkko", "Painaa paljon, melkeen yhtä paljon ku mä mutsiis."))
   tekniikka.addItem(Item("skanneri", "Skanneri kertoo, onko zombi jossain viereisistä huoneista."))
-  asehuone.addItem(Item("ase", "tekee ase asioita"))
+  asehuone.addItem(Item("ase", "Tekee ase asioita"))
   kvantti.addItem(Item("arduino","                                      .-----.                     \n" +
                                  "         .----[PWR]-------------------| USB |--.                  \n" +
                                  "         |                            '-----'  |                  \n" +
@@ -79,10 +79,10 @@ class Adventure:
                                  "             \\_______________________/                              " ))
 
   kvantti.addItem(Item("oskilloskooppi", "Tämän pinta on omituisen tahmea..."))
-  aula.addItem(Item("kartta", "kertoo missä paikat ovat"))
-  kaytava.addItem(Item("note", "2396"))
+  aula.addItem(Item("kartta", "Kertoo missä paikat ovat."))
+  kaytava.addItem(Item("paperi", "2396"))
   lab.addItem(Item("lääkkeen resepti", "Valmistaaksesi zombinparannuslääkkeen, tarvitset omenan, kultaharkon ja weakness potionin."))
-  klubi.addNpc(NPC("Teemu Teekkari", Buffer[String]("Vedä viinaa!")))
+  klubi.addNpc(NPC("Teemu Teekkari", "Vedä viinaa! Pelataanko juomapeliä?"))
   val zombi = Zombi(n3)
   val player = Player(bunkkeri, zombi)
 
@@ -109,10 +109,10 @@ class Adventure:
     * will be different depending on whether or not the player has completed their quest. */
   def goodbyeMessage =
     if this.player.inventory.contains("arduino") && this.isComplete then
-       println("Sait lääkkeen valmistettua sekä zombin parannettua. maailma pelastui, hurraa! Pääset nyt leikkimään arduinolla") //voitit, niin että sinulla oli arduino
+       println("Sait lääkkeen valmistettua sekä zombin parannettua. Maailma pelastui, hurraa! Pääset nyt leikkimään arduinolla!") //voitit, niin että sinulla oli arduino
        arduinopeli()
     else if this.isComplete then
-      "Sait lääkkeen valmistettua sekä zombin parannettua. maailma pelastui, hurraa! Kuitenkin olet pettynyt, ettet löytänytkään Arduinoa" // voitit ilman arduino
+      "Sait lääkkeen valmistettua sekä zombin parannettua. Maailma pelastui, hurraa! Kuitenkin olet pettynyt, koska et löytänyt Arduinoa" // voitit ilman arduino
     else if this.turnCount == this.timeLimit then
       "Käytit liian monta vuoroa.\n Game over!"
     else if this.player.hasQuit then // game over due to player quitting
@@ -121,7 +121,7 @@ class Adventure:
       "Kuolit tappelussa zombin kanssa."
 
   def arduinopeli() : String =
-    var komento = readLine("mikä komennolla määritetään digitaalinen pin 12 annoksi?")
+    var komento = readLine("Millä komennolla määritetään digitaalinen pin 12 annoksi?")
     komento match
       case "pinMode(12, OUTPUT);" => "oikein! hyvä :)"
       case "pinMode(12,OUTPUT);" => "oikein! hyvä :)"

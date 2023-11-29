@@ -95,11 +95,11 @@ zombi liikkuu (X)
   - kierrosmäärä on 3-6, koska "juo" komennon spämmääminen ei ole mielekästä gameplayta :D joka kierroksella tn sammua kasvaa satunnaisen määrän 0-20 %-yksikköä. jos häviää, pitää käydä pihalla juomassa vettä ja aloittaa shottikisa uudestaan.
 - koodin kirjoitus vaultissa (x)
   - korjaa errori jos syöttää tekstiä(x)
-- golden apple -crafting-minipeli ( )
+- golden apple -crafting-minipeli (x)
 - voittoehto (kinda)
   - Pitäiskö pelin oikeesti loppua sittenkin siihen että zombi parannetaan?
 - komentojen kääntäminen suomeksi (x)
-- lisäkomennot? ( ) 
+- lisäkomennot? (x) 
   - assarimode( )
   - help(x)
   - juo(x) jos häviää shottikisan, pitää käydä juomassa vettä

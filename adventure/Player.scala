@@ -17,7 +17,6 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
 
   private var quitCommandGiven = false              // one-way flag
   private val playerInventory = Map[String, Item]()
-  private var voittanutPelin = false
   private var juomapeliAloitettu = false
   private var juomapeliLopetettu = false
   private var kierroksiaPelattu = 0
@@ -59,8 +58,11 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
 
   def juo() =
     if this.currentLocation.name == "Piha" then
-      sammumisenTn = 1
-      "Juot vettä, vesi on hyvää. Tunnet, kuinka alkoholin vaikutus välittömästi pienenee."
+      if sammumisenTn == 100 then
+        sammumisenTn = 1
+        "Juot vettä, vesi on hyvää. Tunnet, kuinka alkoholin vaikutus välittömästi pienenee."
+      else
+        "Juot vettä, vesi on hyvää."
     else
       "Et voi juoda täällä."
 
@@ -78,10 +80,12 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
               this.sammumisenTn += Random.nextInt(21)
               s"Juot shotin. Maistuu ihan hirveältä, mutta lämmittää mukavasti vatsassa ${this.kierroksiaPelattu}/${this.shotRounds}."
       else
-        val weaknessPotion = Item("weakness potion", "minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta.")
+        val weaknessPotion = Item("weakness potion", "Minecraftista tuttu, kyljessä lukee jotain korvien koskettelusta.")
+        juomapeliLopetettu = true
         this.playerInventory += weaknessPotion.name -> weaknessPotion
-        "Nostat viimeisen hörpyn huulillesi, joka menee enää vain juuri ja juuri alas. Maksasi onneksi huomaat, että vastapelaajasi " +
-          "ei kestänyt enää n + 1 juomaa ja on tuupertunut lattialle. Palkinnoksi suorituksestasi saat loput Weakness potionista, jos enää niitä haluat."
+        "Nostat viimeisen hörpyn huulillesi, joka menee enää vain juuri ja juuri alas. \n" +
+          "Maksasi onneksi huomaat, että vastapelaajasi ei kestänyt enää n + 1 juomaa \n" +
+          "ja on tuupertunut lattialle. Palkinnoksi suorituksestasi saat loput weakness potionista, jos enää niitä haluat."
     else
       s"Juomapeli täytyy aloittaa \"pelaa\"-komennolla ennen kuin sitä voi pelata. Pelin voi pelata ainoastaan kerran."
 
@@ -89,7 +93,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
     if this.currentLocation.name != "Klubi" then
       "Täällä ei voi pelata mitään."
     else
-      if voittanutPelin || juomapeliAloitettu then
+      if juomapeliLopetettu || juomapeliAloitettu then
         "Olet jo voittanut pelin tai peli on jo aloitettu."
       else
         juomapeliAloitettu = true
@@ -115,9 +119,8 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
   def juttele(NPC: String): String =
     val npc = this.location.getNpc.get(NPC)
     npc match
-      case None    => "Jos haluat tutkia jotain poimi se ensin ylös."
+      case None    => s"${this.location} ${this.location.getNpc.foreach((n,m) => n)}Täällä ei ole ketään, kenen kanssa jutella."
       case Some(n) => s"${n.name}: ${n.liners.head}"
-
 
   def has(itemname: String): Boolean =
     this.playerInventory.contains(itemname)
@@ -170,7 +173,7 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
           var outcome = "Jouduit samaan huoneeseen zombin kanssa! Kiivaan tappelun seurauksena "
           this.battle
           if !this.onKuollut then
-            val sallitutSuunnat = this.currentLocation.validDirections
+            val sallitutSuunnat = this.currentLocation.validDirections -= "ei minnekään"
             val satunnainenSuunta = sallitutSuunnat(Random.nextInt(sallitutSuunnat.size))
             this.newLocation(validDestination.neighbor(satunnainenSuunta).getOrElse(this.currentLocation))
             enemy.zombiGo()
@@ -227,31 +230,31 @@ class Player(startingArea: Area, enemy: Zombi) extends Character(startingArea):
 
   def craftGoldenApple =
     if this.inventory.contains("omena") && this.inventory.contains("kultaharkko") && this.inventory.contains("weakness potion") && this.location.name == "Laboratorio" then
-      this.playerInventory += "golden apple" -> Item("golden apple", "kultainen omena, jolla voi parantaa zombin")
+      this.playerInventory += "golden apple" -> Item("golden apple", "Kultainen omena, jolla voi parantaa zombin.\nParantaaksesi zombin, mene samaan huoneeseen zombin kanssa.")
       this.playerInventory.remove("omena")
       this.playerInventory.remove("weakness potion")
       this.playerInventory.remove("kultaharkko")
-      "sait valmistettua kultaisen omenan!"
+      "Sait valmistettua kultaisen omenan!"
     else if this.location.name != "Laboratorio" then
-      "mene laboratorioon, jotta voit valmistaa reseptin"
+      "Mene laboratorioon, jotta voit valmistaa asioita."
     else
-      "sinulla ei ole tarvittavia tarvikkeita"
+      "Sinulla ei ole tarvittavia tarvikkeita."
 
   def help : String =
     "Tässä kaikki komennot:\n" +
       s"${Console.GREEN} help ${Console.RESET}- Tulostaa tämän tekstin.\n" +
-      s"${Console.GREEN} mene (suunta) ${Console.RESET}- liiku tässä suunnassa olevaan huoneeseen.\n" +
-      s"${Console.GREEN} poimi (esine) ${Console.RESET}- poimi huoneesta löytyvä esine.\n" +
-      s"${Console.GREEN} tiputa (esine) ${Console.RESET}- Tiputa tavaraluettelossasi ollut esine.\n" +
+      s"${Console.GREEN} mene [suunta] ${Console.RESET}- Liiku tässä suunnassa olevaan huoneeseen.\n" +
+      s"${Console.GREEN} poimi [esine] ${Console.RESET}- Poimi huoneesta löytyvä esine.\n" +
+      s"${Console.GREEN} tiputa [esine] ${Console.RESET}- Tiputa tavaraluettelossasi ollut esine.\n" +
       s"${Console.GREEN} tavaraluettelo ${Console.RESET}- Listaa tavaraluettelostasi löytyvät esineet.\n" +
       s"${Console.GREEN} kartta ${Console.RESET}- Tulostaa alueen kartan mikäli sinulla on sellainen.\n" +
       s"${Console.GREEN} syö ${Console.RESET}- Voit syödä omenan. Syö omena :) SYÖ OMENA!  \n" +
-      s"${Console.GREEN} juttele (NPC) ${Console.RESET}- Juttele NPC:n kanssa. \n" +
-      s"${Console.GREEN} pelaa ${Console.RESET}- Aloita juomapelin pelaaminen tällä komennolla. Toimii ainoastaan Klubissa. \n " +
+      s"${Console.GREEN} juttele [NPC] ${Console.RESET}- Juttele NPC:n kanssa. \n" +
+      s"${Console.GREEN} pelaa ${Console.RESET}- Aloita juomapelin pelaaminen tällä komennolla. Toimii ainoastaan Klubissa. \n" +
       s"${Console.GREEN} skanneri ${Console.RESET}- Käytä skanneria, jos sinulla on skanneri. \n" +
       s"${Console.GREEN} shotti ${Console.RESET}- Kun olet Klubissa ja juomapeli on aloitettu, voit pelata kierroksen juomapeliä tällä komennolla. \n" +
       s"${Console.GREEN} juo ${Console.RESET}- Jos häviät juomapelin, täytyy käydä pihalla juomassa välivesi ennen kuin sinulla on mahdollisuus voittaa peli. \n" +
-      s"${Console.GREEN} kräftää ${Console.RESET}- Valmistaa asioita, kun sinulla on tarvittavat esineet. \n"
+      s"${Console.GREEN} kräftää ${Console.RESET}- Valmista asioita, kun sinulla on tarvittavat esineet. \n"
 
   /** Signals that the player wants to quit the game. Returns a description of what happened within
     * the game as a result (which is the empty string, in this case). */
